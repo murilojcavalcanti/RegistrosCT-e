@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using RegistrosCTe.API.Persistance;
+
 var builder = WebApplication.CreateBuilder(args);
+string connString = builder.Configuration.GetConnectionString("cteApp");
+
+builder.Services.AddDbContext<AppDbContext>(opts=>opts.UseSqlServer(connString));
 
 // Add services to the container.
 

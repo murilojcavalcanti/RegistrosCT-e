@@ -28,6 +28,8 @@ namespace RegistrosCTe.Domain.Entities
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Valor { get; set; }
+        public int ViagemId { get; set; }
+        public virtual Viagem Viagem { get; set; }
         public void Update(DespesaAdicional despesaAdicional)
         {
             Nome = despesaAdicional.Nome;

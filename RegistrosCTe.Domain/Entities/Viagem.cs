@@ -35,6 +35,9 @@ namespace RegistrosCTe.Domain.Entities
 
         [Required(ErrorMessage = "campo Obrigatorio")]
         public decimal ValorFrete { get; set; }
+        public int CargaId { get; set; }
+        public virtual Carga Carga { get; set; }
+        public List<DespesaAdicional> DespesaAdicionais { get; set; }
 
         public void Update(Viagem viagem)
         {
@@ -42,6 +45,12 @@ namespace RegistrosCTe.Domain.Entities
             Destino = viagem.Destino;
             Distancia =  viagem.Distancia;
             DataInicio = viagem.DataInicio;
+        }
+
+        public void CalculaValorFrete()
+        {
+            decimal DespesasAdicionais = DespesaAdicionais.Sum(d => d.Valor);
+            ValorFrete = (100 * Carga.Peso) + DespesasAdicionais; 
         }
     }
 }

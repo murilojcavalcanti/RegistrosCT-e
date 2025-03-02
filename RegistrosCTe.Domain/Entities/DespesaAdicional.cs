@@ -10,11 +10,12 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class DespesaAdicional:BaseEntity
     {
-        public DespesaAdicional(string nome, string description, decimal valor)
+        public DespesaAdicional(string nome, string descricao, decimal valor, int viagemId)
         {
             Nome = nome;
-            Description = description;
+            Descricao = descricao;
             Valor = valor;
+            ViagemId = viagemId;
         }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
@@ -23,7 +24,7 @@ namespace RegistrosCTe.Domain.Entities
         
         [Required(ErrorMessage = "campo Obrigatorio")]
         [MinLength(4,ErrorMessage ="Quantidade minima de 4 caracteres")]
-        public string Description { get; set; }
+        public string Descricao { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
@@ -33,7 +34,7 @@ namespace RegistrosCTe.Domain.Entities
         public void Update(DespesaAdicional despesaAdicional)
         {
             Nome = despesaAdicional.Nome;
-            Description = despesaAdicional.Description;
+            Descricao = despesaAdicional.Descricao;
             Valor = despesaAdicional.Valor;
         }
     }

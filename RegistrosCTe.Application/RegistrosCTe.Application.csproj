@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RegistrosCTe.Domain\RegistrosCTe.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -10,12 +10,13 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class Viagem:BaseEntity
     {
-        public Viagem(string origem, string destino, decimal distancia, DateTime dataInicio):base()
+        public Viagem(string origem, string destino, decimal distancia, DateTime dataInicio, int cargaId) : base()
         {
             Origem = origem;
             Destino = destino;
             Distancia = distancia;
             DataInicio = dataInicio;
+            CargaId = cargaId;
         }
 
         [Required(ErrorMessage = "campo Obrigatorio")]

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RegistrosCTe.Domain\RegistrosCTe.Domain.csproj" />
+    <ProjectReference Include="..\RegistrosCTe.Infra\RegistrosCTe.Infra.csproj" />
   </ItemGroup>
 
 </Project>

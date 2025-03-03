@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,15 @@ namespace RegistrosCTe.Domain.Entities
         }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
-        [MinLength(10,ErrorMessage ="O tamanho minimo de 10 caracteres")]
+        [MinLength(5,ErrorMessage ="O tamanho minimo de 5 caracteres")]
         public string Origem { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
-        [MinLength(10,ErrorMessage ="O tamanho minimo de 10 caracteres")]
+        [MinLength(5,ErrorMessage ="O tamanho minimo de 5 caracteres")]
         public string Destino { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [Column(TypeName = "decimal(10,3)")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Distancia { get; set; }
         
@@ -35,6 +37,7 @@ namespace RegistrosCTe.Domain.Entities
         public DateTime DataInicio { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [Column(TypeName = "decimal(10,2)")]
         public decimal ValorFrete { get; set; }
         public int CargaId { get; set; }
         public virtual Carga Carga { get; set; }
@@ -50,8 +53,12 @@ namespace RegistrosCTe.Domain.Entities
 
         public void CalculaValorFrete()
         {
-            decimal DespesasAdicionais = DespesaAdicionais.Sum(d => d.Valor);
+            decimal DespesasAdicionais = DespesaAdicionais.Count() > 0 ? DespesaAdicionais.Sum(d => d.Valor) : 0;
             ValorFrete = (100 * Carga.Peso) + DespesasAdicionais; 
+        }
+        public void CalculaValorFrete(decimal Peso)
+        {
+            ValorFrete = 100 * Peso;
         }
     }
 }

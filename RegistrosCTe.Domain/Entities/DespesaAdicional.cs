@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace RegistrosCTe.Domain.Entities
         [MinLength(4,ErrorMessage ="Quantidade minima de 4 caracteres")]
         public string Descricao { get; set; }
 
+        [Column(TypeName = "decimal(10,2)")]
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Valor { get; set; }

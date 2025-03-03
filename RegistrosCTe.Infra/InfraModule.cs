@@ -19,7 +19,7 @@ namespace RegistrosCTe.Infra
         }
         public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
         {
-            string conString = configuration.GetConnectionString("DevfreelaCs");
+            string conString = configuration.GetConnectionString("cteApp");
             services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(conString));
             return services;
         }

@@ -41,6 +41,7 @@ namespace RegistrosCTe.Domain.Entities
         public decimal ValorFrete { get; set; }
         public int CargaId { get; set; }
         public virtual Carga Carga { get; set; }
+        public virtual CTe CTe { get; set; }
         public List<DespesaAdicional> DespesaAdicionais { get; set; }
 
         public void Update(Viagem viagem)

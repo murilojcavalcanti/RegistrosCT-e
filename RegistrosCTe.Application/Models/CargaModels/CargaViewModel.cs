@@ -17,16 +17,10 @@ namespace RegistrosCTe.Application.Models.CargaModels
             Volume = volume;
         }
 
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public int Quantidade { get; set; }
 
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Peso { get; set; }
 
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Volume { get; set; }
 
         public static CargaViewModel FromEntity(Carga carga)

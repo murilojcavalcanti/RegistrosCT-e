@@ -9,17 +9,20 @@ namespace RegistrosCTe.Application.Models.CTeModels
 {
     public class CTeInputModel
     {
-        public CTeInputModel(decimal valorCTe, decimal iCMS, int viagemId)
+        public CTeInputModel(decimal aliquota, decimal valorCTe, decimal iCMS, int viagemId)
         {
+
+            Aliquota = aliquota;
             ValorCTe = valorCTe;
             ValorICMS = iCMS;
             ViagemId = viagemId;
         }
 
+        public decimal Aliquota { get; set; }
         public decimal ValorCTe { get; set; }
         public decimal ValorICMS { get; set; }
         public int ViagemId { get; set; }
-        public CTe ToEntity() => new CTe(ValorCTe,ValorICMS,ViagemId);
+        public CTe ToEntity() => new CTe(Aliquota,ValorCTe,ValorICMS,ViagemId);
 
     }
 }

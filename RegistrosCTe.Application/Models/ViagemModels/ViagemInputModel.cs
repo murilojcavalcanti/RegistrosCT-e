@@ -11,13 +11,12 @@ namespace RegistrosCTe.Application.Models.ViagemModels
 {
     public class ViagemInputModel
     {
-        public ViagemInputModel(string origem, string destino, decimal distancia, DateTime dataInicio, decimal valorFrete, int cargaId)
+        public ViagemInputModel(string origem, string destino, decimal distancia, DateTime dataInicio, int cargaId)
         {
             Origem = origem;
             Destino = destino;
             Distancia = distancia;
             DataInicio = dataInicio;
-            ValorFrete = valorFrete;
             CargaId = cargaId;
         }
 
@@ -37,7 +36,6 @@ namespace RegistrosCTe.Application.Models.ViagemModels
         public DateTime DataInicio { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
-        public decimal ValorFrete { get; set; }
         public int CargaId { get; set; }
 
         public Viagem ToEntity() => new(Origem,Destino,Distancia,DataInicio,CargaId);

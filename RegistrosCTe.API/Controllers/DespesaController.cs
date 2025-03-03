@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using RegistrosCTe.API.Persistance;
+using RegistrosCTe.Application.Services.DespesasServices;
 using RegistrosCTe.Domain.Entities;
+using RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels;
 
 namespace RegistrosCTe.API.Controllers
 {
@@ -11,51 +11,49 @@ namespace RegistrosCTe.API.Controllers
     public class DespesaController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IDespesasService _Service;
+
+        public DespesaController(IDespesasService service)
+        {
+            _Service = service;
+        }
 
         public DespesaController(AppDbContext context)
         {
             _context = context;
         }
         [HttpPost]
-        public async Task<IActionResult> Post(DespesaAdicional Despesa)
+        public IActionResult Post(DespesaAdicionalInputModel DespesaModel)
         {
-            await _context.Set<DespesaAdicional>().AddAsync(Despesa);
-            _context.SaveChanges();
-            return Created();
+            DespesaAdicional despesa = _Service.Post(DespesaModel);
+            return CreatedAtAction(nameof(GetById), new { id = despesa.Id }, DespesaAdicionalViewModel.FromEntity(despesa));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            List<DespesaAdicional> Despesas = await _context.Set<DespesaAdicional>().ToListAsync();
-            return Ok(Despesas);
+            List<DespesaAdicionalViewModel> despesasModel = _Service.GetAll(); 
+            return Ok(despesasModel);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public IActionResult GetById(int id)
         {
-            DespesaAdicional Despesa = await _context.Set<DespesaAdicional>().SingleOrDefaultAsync(v => v.Id == id);
-            return Ok(Despesa);
+            DespesaAdicionalViewModelDetails despesaModel = _Service.GetById(id) ;
+            return Ok(despesaModel);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, DespesaAdicional DespesaUpdated)
+        public IActionResult Update(int id, DespesaAdicionalInputModel DespesaModel)
         {
-            DespesaAdicional Despesa = await _context.Set<DespesaAdicional>().SingleOrDefaultAsync(v => v.Id == id);
-            if (Despesa is null) return BadRequest("Despesa não encontrada!");
-            Despesa.Update(DespesaUpdated);
-            _context.SaveChanges();
+            _Service.Update(id, DespesaModel);
             return Ok();
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            DespesaAdicional Despesa = await _context.Set<DespesaAdicional>().SingleOrDefaultAsync(v => v.Id == id);
-            if (Despesa is null) return BadRequest("Despesa não encontrada!");
-            Despesa.SetAsDeleted();
-            Despesa.Update(Despesa);
-            _context.SaveChanges();
+            _Service.Delete(id);
             return Ok();
         }
     }

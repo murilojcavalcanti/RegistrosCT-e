@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using RegistrosCTe.API.Persistance;
+using RegistrosCTe.Application.Models.CargaModels;
+using RegistrosCTe.Application.Models.CargaModelss;
+using RegistrosCTe.Application.Models.CTeModels;
+using RegistrosCTe.Application.Services.CTeService;
 using RegistrosCTe.Domain.Entities;
 
 namespace RegistrosCTe.API.Controllers
@@ -10,24 +12,40 @@ namespace RegistrosCTe.API.Controllers
     [ApiController]
     public class CTeController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ICTeService _Service;
 
-        public CTeController(AppDbContext context)
+        public CTeController(ICTeService service)
         {
-            _context = context;
+            _Service = service;
         }
-        [HttpPost("CTe")]
-        public async Task<IActionResult> Post(CTe CTe)
+
+        [HttpPost]
+        public IActionResult Post(CTeInputModel cteModel)
         {
-            await _context.Set<CTe>().AddAsync(CTe);
-            _context.SaveChanges();
-            return Created();
+            CTe cte = _Service.Post(cteModel);
+            return CreatedAtAction(nameof(GetById), new { id = cte.Id }, CTeViewModelDetails.FromEntity(cte));
         }
-        [HttpGet("CTe")]
-        public async Task<IActionResult> Get(CTe CTe)
+
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            //calculo de ct-e
-            throw new NotImplementedException();
+            List<CTeViewModel> cteModel = _Service.GetAll();
+            return Ok(cteModel);
         }
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetById(int id)
+        {
+            CTeViewModelDetails CTeModel = _Service.GetById(id); ;
+            return Ok(CTeModel);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            _Service.Delete(id);
+            return NoContent();
+        }
+
     }
 }

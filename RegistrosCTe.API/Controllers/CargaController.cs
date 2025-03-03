@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using RegistrosCTe.API.Persistance;
+using RegistrosCTe.Application.Models.CargaModels;
+using RegistrosCTe.Application.Models.CargaModelss;
+using RegistrosCTe.Application.Services.CargaServices;
 using RegistrosCTe.Domain.Entities;
 
 namespace RegistrosCTe.API.Controllers
@@ -10,53 +11,46 @@ namespace RegistrosCTe.API.Controllers
     [ApiController]
     public class CargaController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ICargaService _Service;
 
-        public CargaController(AppDbContext context)
+        public CargaController(ICargaService service)
         {
-            _context = context;
+            _Service = service;
         }
+
         [HttpPost]
-        public async Task<IActionResult> Post(Carga carga)
+        public IActionResult Post(CargaInputModel cargaModel)
         {
-            await _context.Set<Carga>().AddAsync(carga);
-            _context.SaveChanges();
-            return Created();
+            Carga carga = _Service.Post(cargaModel);
+            return CreatedAtAction(nameof(GetById), new { id = carga.Id }, CargaViewModel.FromEntity(carga));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            List<Carga> cargas = await _context.Set<Carga>().ToListAsync();
-            return Ok(cargas);
+            List<CargaViewModel> cargasModel = _Service.GetAll();
+            return Ok(cargasModel);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public IActionResult GetById(int id)
         {
-            Carga carga = await _context.Set<Carga>().SingleOrDefaultAsync(v => v.Id == id);
-            return Ok(carga);
+            CargaViewModelDetails cargaModel = _Service.GetById(id); ;
+            return Ok(cargaModel);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, Carga CargaUpdated)
+        public IActionResult Update(int id, CargaInputModel cargaModel)
         {
-            Carga Carga = await _context.Set<Carga>().SingleOrDefaultAsync(v => v.Id == id);
-            if (Carga is null) return BadRequest("Carga não encontrada!");
-            Carga.Update(CargaUpdated);
-            _context.SaveChanges();
-            return Ok();
+            _Service.Update(id,cargaModel);
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            Carga Carga = await _context.Set<Carga>().SingleOrDefaultAsync(v => v.Id == id);
-            if (Carga is null) return BadRequest("Carga não encontrada!");
-            Carga.SetAsDeleted();
-            Carga.Update(Carga);
-            _context.SaveChanges();
-            return Ok();
+            _Service.Delete(id);
+            return NoContent();
         }
     }
 }

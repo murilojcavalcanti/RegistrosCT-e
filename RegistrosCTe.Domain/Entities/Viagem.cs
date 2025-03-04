@@ -55,5 +55,10 @@ namespace RegistrosCTe.Domain.Entities
         {
             ValorFrete = 100 * Peso;
         }
+        public void RecalculaValorFrete(decimal DespesaRetirada)
+        {
+            decimal DespesasAdicionais = DespesaAdicionais.Sum(d => d.Valor) - DespesaRetirada;
+            ValorFrete = (100 * Carga.Peso) + DespesasAdicionais;
+        }
     }
 }

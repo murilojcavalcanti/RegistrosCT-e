@@ -1,103 +1,107 @@
-# RegistrosCT-e API
+ï»¿# RegistrosCT-e API
 
-## Descrição
+## DescriÃ§Ã£o
 
-Esta é uma API RESTful desenvolvida em ASP.NET Core para o gerenciamento de Conhecimentos de Transporte Eletrônico (CT-e) e informações relacionadas a viagens, cargas e despesas adicionais. A API permite criar, consultar, atualizar e excluir registros de CT-e, além de fornecer funcionalidades para cálculo de frete e emissão de relatórios.
+Esta Ã© uma API RESTful desenvolvida em ASP.NET Core para o gerenciamento de Conhecimentos de Transporte EletrÃ´nico (CT-e) e informaÃ§Ãµes relacionadas a viagens, cargas e despesas adicionais. A API permite criar, consultar, atualizar e excluir registros de CT-e, alÃ©m de fornecer funcionalidades para cÃ¡lculo de frete e emissÃ£o de relatÃ³rios.
 
 ## Funcionalidades Principais
 
 *   **Gerenciamento de CT-e:**
-    *   Criação de novos CT-e.
+    *   CriaÃ§Ã£o de novos CT-e.
     *   Consulta de CT-e por ID.
     *   Listagem de todos os CT-e cadastrados.
-    *   Atualização de dados de um CT-e existente.
-    *   Exclusão de CT-e.
+    *   AtualizaÃ§Ã£o de dados de um CT-e existente.
+    *   ExclusÃ£o de CT-e.
 *   **Gerenciamento de Viagens:**
-    *   Criação de novas viagens, associadas a uma carga.
+    *   CriaÃ§Ã£o de novas viagens, associadas a uma carga.
     *   Consulta de viagens por ID.
     *   Listagem de todas as viagens.
-    *   Atualização de dados de uma viagem existente.
-    *   Exclusão de viagens.
+    *   AtualizaÃ§Ã£o de dados de uma viagem existente.
+    *   ExclusÃ£o de viagens.
 *   **Gerenciamento de Cargas:**
-    *   Criação de novas cargas, especificando quantidade, peso e volume.
+    *   CriaÃ§Ã£o de novas cargas, especificando quantidade, peso e volume.
     *   Consulta de cargas por ID.
     *   Listagem de todas as cargas.
-    *   Atualização de dados de uma carga existente.
-    *   Exclusão de cargas.
+    *   AtualizaÃ§Ã£o de dados de uma carga existente.
+    *   ExclusÃ£o de cargas.
 *   **Gerenciamento de Despesas Adicionais:**
-    *   Criação de despesas adicionais associadas a uma viagem.
+    *   CriaÃ§Ã£o de despesas adicionais associadas a uma viagem.
     *   Consulta de despesas adicionais por ID.
     *   Listagem de todas as despesas adicionais.
-    *   Atualização de dados de uma despesa adicional existente.
-    *   Exclusão de despesas adicionais.
-*   **Cálculo de Frete:**
-    *   Cálculo automático do valor do frete com base no peso da carga e nas despesas adicionais.
-*   **Validações:**
-    *   Validação robusta dos dados de entrada, garantindo a integridade dos registros.
+    *   AtualizaÃ§Ã£o de dados de uma despesa adicional existente.
+    *   ExclusÃ£o de despesas adicionais.
+*   **CÃ¡lculo de Frete:**
+    *   CÃ¡lculo automÃ¡tico do valor do frete com base no peso da carga e nas despesas adicionais.
+*   **ValidaÃ§Ãµes:**
+    *   ValidaÃ§Ã£o robusta dos dados de entrada, garantindo a integridade dos registros.
 
 ## Fluxo de Uso e Casos de Uso
 
-Este sistema segue um fluxo específico para garantir a integridade dos dados e a correta associação entre as entidades. Abaixo, descrevemos a ordem de criação e as restrições de atualização para cada entidade:
+Este sistema segue um fluxo especÃ­fico para garantir a integridade dos dados e a correta associaÃ§Ã£o entre as entidades. Abaixo, descrevemos a ordem de criaÃ§Ã£o e as restriÃ§Ãµes de atualizaÃ§Ã£o para cada entidade:
 
 **1. Carga:**
 
-*   **Criação:** A entidade `Carga` deve ser a primeira a ser criada. Ela representa os detalhes da carga a ser transportada (quantidade, peso, volume).
-*   **Atualização:** Uma `Carga` só pode ser atualizada se não estiver vinculada a nenhuma `Viagem`. Isso garante que as informações da carga não sejam alteradas após o início de uma viagem.
+*   **CriaÃ§Ã£o:** A entidade `Carga` deve ser a primeira a ser criada. Ela representa os detalhes da carga a ser transportada (quantidade, peso, volume).
+*   **AtualizaÃ§Ã£o:** Uma `Carga` sÃ³ pode ser atualizada se nÃ£o estiver vinculada a nenhuma `Viagem`. Isso garante que as informaÃ§Ãµes da carga nÃ£o sejam alteradas apÃ³s o inÃ­cio de uma viagem.
 
 **2. Viagem:**
 
-*   **Criação:** Para criar uma `Viagem`, é necessário que já exista uma `Carga` previamente cadastrada. A `Viagem` representa o trajeto a ser percorrido e está intrinsecamente ligada à `Carga` que está sendo transportada.
-*   **Atualização:** Uma `Viagem` só pode ser atualizada se não estiver vinculada a um `CTe`. Isso evita a modificação de informações da viagem após a emissão do CT-e.
+*   **CriaÃ§Ã£o:** Para criar uma `Viagem`, Ã© necessÃ¡rio que jÃ¡ exista uma `Carga` previamente cadastrada. A `Viagem` representa o trajeto a ser percorrido e estÃ¡ intrinsecamente ligada Ã  `Carga` que estÃ¡ sendo transportada.
+*   **AtualizaÃ§Ã£o:** Uma `Viagem` sÃ³ pode ser atualizada se nÃ£o estiver vinculada a um `CTe`. Isso evita a modificaÃ§Ã£o de informaÃ§Ãµes da viagem apÃ³s a emissÃ£o do CT-e.
 
 **3. Despesa Adicional:**
 
-*   **Criação:** Uma `DespesaAdicional` deve estar associada a uma `Viagem` existente. Ela representa os custos extras incorridos durante a viagem (pedágios, alimentação, etc.).
+*   **CriaÃ§Ã£o:** Uma `DespesaAdicional` deve estar associada a uma `Viagem` existente. Ela representa os custos extras incorridos durante a viagem (pedÃ¡gios, alimentaÃ§Ã£o, etc.).
 
-**4. CT-e (Conhecimento de Transporte Eletrônico):**
+**4. CT-e (Conhecimento de Transporte EletrÃ´nico):**
 
-*   **Criação:** Para criar um `CTe`, é necessário que exista uma `Viagem` previamente cadastrada. O `CTe` é o documento fiscal que formaliza o transporte da carga.
-    *   **Aliquota:** A alíquota do ICMS (Imposto sobre Circulação de Mercadorias e Serviços) deve estar entre 1% e 100%.
-*   **Atualização:** Um `CTe` não pode ser atualizado após a sua criação. Isso garante a integridade e a imutabilidade do documento fiscal.
+*   **CriaÃ§Ã£o:** Para criar um `CTe`, Ã© necessÃ¡rio que exista uma `Viagem` previamente cadastrada. O `CTe` Ã© o documento fiscal que formaliza o transporte da carga.
+    *   **Aliquota:** A alÃ­quota do ICMS (Imposto sobre CirculaÃ§Ã£o de Mercadorias e ServiÃ§os) deve estar entre 1% e 100%.
+*   **AtualizaÃ§Ã£o:** Um `CTe` nÃ£o pode ser atualizado apÃ³s a sua criaÃ§Ã£o. Isso garante a integridade e a imutabilidade do documento fiscal.
 
 **Diagrama Simplificado:**
-    Carga --> Viagem --> DespesaAdicional
-                ^
-                |
-               CTe
-Este diagrama ilustra as dependências entre as entidades. A `Viagem` depende da `Carga`, e tanto a `DespesaAdicional` quanto o `CTe` dependem da `Viagem`.
+
+|       |              |                        |
+| :---- | :----------- | :---------------       |
+| Carga | --> Viagem   | --> DespesaAdicional   |
+|       |       â–²      |                        |
+|       |       â”‚      |                        |
+|       |      CTe     |                        |
+
+Este diagrama ilustra as dependÃªncias entre as entidades. A `Viagem` depende da `Carga`, e tanto a `DespesaAdicional` quanto o `CTe` dependem da `Viagem`.
 
 
 ## Tecnologias Utilizadas
 
-*   **ASP.NET Core:** Framework para a construção da API.
-*   **C#:** Linguagem de programação.
+*   **ASP.NET Core:** Framework para a construÃ§Ã£o da API.
+*   **C#:** Linguagem de programaÃ§Ã£o.
 *   **Entity Framework Core (EF Core):** ORM para acesso ao banco de dados.
 *   **SQL Server (ou outro banco de dados):** Banco de dados relacional para armazenar os dados.
-*   **xUnit:** Framework para testes unitários.
-*   **Swashbuckle/Swagger:** Para geração da documentação da API e interface de testes.
+*   **xUnit:** Framework para testes unitÃ¡rios.
+*   **Swashbuckle/Swagger:** Para geraÃ§Ã£o da documentaÃ§Ã£o da API e interface de testes.
 
-## Pré-requisitos
+## PrÃ©-requisitos
 
-Antes de começar, você precisará ter as seguintes ferramentas instaladas:
+Antes de comeÃ§ar, vocÃª precisarÃ¡ ter as seguintes ferramentas instaladas:
 
-*   [.NET SDK](https://dotnet.microsoft.com/download) (versão X.X ou superior)
-*   [Visual Studio](https://visualstudio.microsoft.com/downloads/) ou [Visual Studio Code](https://code.visualstudio.com/) com a extensão C#
-*   [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (ou outro banco de dados de sua preferência)
+*   [.NET SDK](https://dotnet.microsoft.com/download) (versÃ£o X.X ou superior)
+*   [Visual Studio](https://visualstudio.microsoft.com/downloads/) ou [Visual Studio Code](https://code.visualstudio.com/) com a extensÃ£o C#
+*   [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (ou outro banco de dados de sua preferÃªncia)
 *   [NuGet Package Manager](https://www.nuget.org/) (geralmente instalado com o Visual Studio)
 
-## Configuração
+## ConfiguraÃ§Ã£o
 
-1.  **Clone o repositório:**
+1.  **Clone o repositÃ³rio:**
 
     ```bash
-    git clone [URL do seu repositório]
+    git clone [URL do seu repositÃ³rio]
     cd [nome do seu projeto]
     ```
 
-2.  **Configure a string de conexão do banco de dados:**
+2.  **Configure a string de conexÃ£o do banco de dados:**
     *   Abra o arquivo `appsettings.json`.
-    *   Localize a seção de configuração da string de conexão (`ConnectionStrings`).
-    *   Modifique a string de conexão para apontar para o seu servidor SQL Server (ou outro banco de dados) e o banco de dados que você deseja usar. Exemplo:
+    *   Localize a seÃ§Ã£o de configuraÃ§Ã£o da string de conexÃ£o (`ConnectionStrings`).
+    *   Modifique a string de conexÃ£o para apontar para o seu servidor SQL Server (ou outro banco de dados) e o banco de dados que vocÃª deseja usar. Exemplo:
 
         ```json
         "ConnectionStrings": {
@@ -105,10 +109,10 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
         }
         ```
 
-3.  **Execute as migrações do EF Core:**
+3.  **Execute as migraÃ§Ãµes do EF Core:**
 
     *   Abra o console do gerenciador de pacotes (Tools -> NuGet Package Manager -> Package Manager Console).
-    *   Execute o seguinte comando para aplicar as migrações e criar o banco de dados:
+    *   Execute o seguinte comando para aplicar as migraÃ§Ãµes e criar o banco de dados:
 
         ```powershell
         Update-Database
@@ -117,29 +121,29 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
 ## Como Executar a API
 
 1.  **Abra o projeto no Visual Studio ou Visual Studio Code.**
-2.  **Restaure as dependências NuGet:**
+2.  **Restaure as dependÃªncias NuGet:**
 
     *   Visual Studio: Build -> Restore NuGet Packages
     *   Visual Studio Code: O VS Code geralmente restaura automaticamente ou pede para restaurar.
 
-3.  **Execute a aplicação:**
+3.  **Execute a aplicaÃ§Ã£o:**
 
-    *   Visual Studio: Clique no botão "Start" (geralmente com um ícone de play).
-    *   Visual Studio Code: Pressione `Ctrl+Shift+B` (para executar a task de build) e depois execute a aplicação a partir do terminal.
+    *   Visual Studio: Clique no botÃ£o "Start" (geralmente com um Ã­cone de play).
+    *   Visual Studio Code: Pressione `Ctrl+Shift+B` (para executar a task de build) e depois execute a aplicaÃ§Ã£o a partir do terminal.
 
-4.  **Acesse a documentação do Swagger:**
+4.  **Acesse a documentaÃ§Ã£o do Swagger:**
 
-    *   Após a execução da API, abra um navegador e acesse o endereço `https://localhost:[porta]/swagger`, substituindo `[porta]` pela porta que a sua aplicação está utilizando (geralmente 5001 para HTTPS ou 5000 para HTTP).
-    *   A interface do Swagger permitirá que você explore os endpoints da API, execute requisições e veja as respostas.
+    *   ApÃ³s a execuÃ§Ã£o da API, abra um navegador e acesse o endereÃ§o `https://localhost:[porta]/swagger`, substituindo `[porta]` pela porta que a sua aplicaÃ§Ã£o estÃ¡ utilizando (geralmente 5001 para HTTPS ou 5000 para HTTP).
+    *   A interface do Swagger permitirÃ¡ que vocÃª explore os endpoints da API, execute requisiÃ§Ãµes e veja as respostas.
 
-## Testes Unitários
+## Testes UnitÃ¡rios
 
-Para executar os testes unitários:
+Para executar os testes unitÃ¡rios:
 
 1.  **Abra o Test Explorer no Visual Studio (Test -> Test Explorer).**
 2.  **Clique em "Run All" para executar todos os testes.**
 
-Certifique-se de que todos os testes passem antes de fazer qualquer alteração no código.
+Certifique-se de que todos os testes passem antes de fazer qualquer alteraÃ§Ã£o no cÃ³digo.
 
 ## Endpoints da API
 
@@ -147,24 +151,24 @@ A API possui os seguintes endpoints:
 
 *   `POST   /api/Viagem`        - Cria uma nova viagem.
 *   `GET    /api/Viagem`        - Lista todas as viagens.
-*   `GET    /api/Viagem/{id}`    - Obtém uma viagem por ID.
+*   `GET    /api/Viagem/{id}`    - ObtÃ©m uma viagem por ID.
 *   `PUT    /api/Viagem/{id}`    - Atualiza uma viagem existente.
 *   `DELETE /api/Viagem/{id}`    - Exclui uma viagem.
 
 *   `POST   /api/Carga`        - Cria uma nova carga.
 *   `GET    /api/Carga`        - Lista todas as cargas.
-*   `GET    /api/Carga/{id}`    - Obtém uma carga por ID.
+*   `GET    /api/Carga/{id}`    - ObtÃ©m uma carga por ID.
 *   `PUT    /api/Carga/{id}`    - Atualiza uma carga existente.
 *   `DELETE /api/Carga/{id}`    - Exclui uma carga.
 
 *   `POST   /api/CTe`           - Cria um novo CT-e.
 *   `GET    /api/CTe`           - Lista todos os CT-e.
-*   `GET    /api/CTe/{id}`       - Obtém um CT-e por ID.
-*   `PUT    /api/CTe/{id}`       - Atualiza um CT-e existente. (Não implementado no exemplo original, mas você pode adicionar)
+*   `GET    /api/CTe/{id}`       - ObtÃ©m um CT-e por ID.
+*   `PUT    /api/CTe/{id}`       - Atualiza um CT-e existente. (NÃ£o implementado no exemplo original, mas vocÃª pode adicionar)
 *   `DELETE /api/CTe/{id}`       - Exclui um CT-e.
 
 *   `POST   /api/DespesasAdicionais` - Cria uma nova despesa adicional.
 *   `GET    /api/DespesasAdicionais` - Lista todas as despesas adicionais.
-*   `GET    /api/DespesasAdicionais/{id}` - Obtém uma despesa adicional por ID.
+*   `GET    /api/DespesasAdicionais/{id}` - ObtÃ©m uma despesa adicional por ID.
 *   `PUT    /api/DespesasAdicionais/{id}` - Atualiza uma despesa adicional existente.
 *   `DELETE /api/DespesasAdicionais/{id}` - Exclui uma despesa adicional.

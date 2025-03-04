@@ -63,7 +63,7 @@ Este sistema segue um fluxo específico para garantir a integridade dos dados e 
 
 |       |              |                        |
 | :---- | :----------- | :---------------       |
-| Carga | --> Viagem   | --> DespesaAdicional   |
+| Carga | -> Viagem    | <-- DespesaAdicional   |
 |       |         ▲    |                        |
 |       |         │    |                        |
 |       |        CTe   |                        |

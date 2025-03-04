@@ -26,7 +26,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         public List<ViagemViewModel> GetAll()
         {
-            List<Viagem> viagens = _context.Set<Viagem>().Where(v => v.IsDeleted == false).ToList();
+            List<Viagem> viagens = _context.Set<Viagem>().ToList();
             if (viagens == null)  throw new Exception("Viagens não existem");
             List<ViagemViewModel> viagemViewModel = viagens.Select(v => ViagemViewModel.FromEntity(v)).ToList();
             return viagemViewModel;
@@ -35,7 +35,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
         public ViagemViewModelDetails GetById(int id)
         {
             Viagem viagem = _context.Set<Viagem>()
-                .Where(v => v.IsDeleted == false).Include(v => v.CTe)
+                .Include(v => v.CTe)
                 .Include(v => v.Carga).Include(v => v.DespesaAdicionais)
                 .SingleOrDefault(v => v.Id == id);
             if (viagem == null) throw new Exception("Viagem não existe");
@@ -46,7 +46,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
         public void Update(int id, ViagemUpdateInputModel viagemModel)
         {
             Viagem viagem = _context.Set<Viagem>()
-                .Where(v => v.IsDeleted == false).Include(v=>v.CTe)
+                .Include(v=>v.CTe)
                 .SingleOrDefault(v => v.Id == id);
            if(viagem.CTe!=null) throw new Exception("Viagem não pode ser Atualizada!");
             if (viagem is null) throw new Exception("Viagem não encontrada!");
@@ -59,10 +59,9 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         public void Delete(int id)
         {
-            Viagem viagem = _context.Set<Viagem>().Where(v => v.IsDeleted == false).SingleOrDefault(v => v.Id == id);
+            Viagem viagem = _context.Set<Viagem>().SingleOrDefault(v => v.Id == id);
             if (viagem is null) throw new Exception("Viagem não encontrada!");
 
-            viagem.SetAsDeleted();
             _context.Update(viagem);
             _context.SaveChanges();
         }

@@ -8,17 +8,7 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class BaseEntity
     {
-        public BaseEntity()
-        {
-            IsDeleted = false;
-        }
         public int Id { get; set; }
-        public bool IsDeleted { get; set; }
 
-
-        public void SetAsDeleted()
-        {
-            IsDeleted = true;
-        }
     }
 }

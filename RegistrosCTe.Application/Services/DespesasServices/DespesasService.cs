@@ -32,14 +32,14 @@ namespace RegistrosCTe.Application.Services.DespesasServices
 
         public List<DespesaAdicionalViewModel> GetAll()
         {
-            List<DespesaAdicional> despesas = _context.Set<DespesaAdicional>().Where(d => d.IsDeleted).ToList();
+            List<DespesaAdicional> despesas = _context.Set<DespesaAdicional>().ToList();
             List<DespesaAdicionalViewModel> despesasModel = despesas.Select(v => DespesaAdicionalViewModel.FromEntity(v)).ToList();
             return despesasModel;
         }
 
         public DespesaAdicionalViewModelDetails GetById(int id)
         {
-            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Where(d => d.IsDeleted).Include(d => d.Viagem).SingleOrDefault(v => v.Id == id);
+            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d => d.Viagem).SingleOrDefault(v => v.Id == id);
             if (despesa is null) throw new Exception("Despesa não encontrada!");
             DespesaAdicionalViewModelDetails despesaModel = DespesaAdicionalViewModelDetails.FromEntity(despesa);
             return despesaModel;
@@ -47,14 +47,14 @@ namespace RegistrosCTe.Application.Services.DespesasServices
 
         public void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel)
         {
-            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).Where(d => d.IsDeleted).SingleOrDefault(v => v.Id == id);
+            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).SingleOrDefault(v => v.Id == id);
             DespesaAdicional despesaUpdated = DespesaModel.ToEntity(despesa.ViagemId);
             if(despesa.Viagem.CTe != null ) throw new Exception("Despesa não pode ser atualizada!");
             if (despesa is null) throw new Exception("Despesa não encontrada!");
             despesa.Update(despesaUpdated);
             _context.SaveChanges();
 
-            Viagem viagem = _context.Set<Viagem>().Include(v => v.DespesaAdicionais).Include(v=>v.CTe).Where(d => d.IsDeleted).SingleOrDefault(v => v.Id == despesa.ViagemId);
+            Viagem viagem = _context.Set<Viagem>().Include(v => v.DespesaAdicionais).Include(v=>v.CTe).SingleOrDefault(v => v.Id == despesa.ViagemId);
             DespesaAdicional despesaViagem = viagem.DespesaAdicionais.FirstOrDefault(d => d.Id == despesa.Id);
             if (despesa.Valor != despesaViagem.Valor)
             {
@@ -69,7 +69,6 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).SingleOrDefault(v => v.Id == id);
             if(despesa.Viagem.CTe!=null) throw new Exception("Despesa não pode ser excluida encontrada! Deve-se excluir o CT-e Primeiro!");            
             if (despesa is null) throw new Exception("Despesa não encontrada!");
-            despesa.SetAsDeleted();
             _context.Update(despesa);
             if(despesa.Viagem != null)
             {

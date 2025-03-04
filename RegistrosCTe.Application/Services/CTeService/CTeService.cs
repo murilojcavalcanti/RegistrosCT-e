@@ -23,26 +23,25 @@ namespace RegistrosCTe.Application.Services.CTeService
         }
         public List<CTeViewModel> GetAll()
         {
-            List<CTe> ctes = _context.Set<CTe>().Where(c=>c.IsDeleted == false).ToList();   
+            List<CTe> ctes = _context.Set<CTe>().ToList();   
             List<CTeViewModel> cteModels= ctes.Select(c=>CTeViewModel.FromEntity(c)).ToList();   
             return cteModels;
         }
         public CTeViewModelDetails GetById(int id)
         {
-            CTe cte = _context.Set<CTe>().Where(c => c.IsDeleted == false).SingleOrDefault(c=>c.Id==id);
+            CTe cte = _context.Set<CTe>().SingleOrDefault(c=>c.Id==id);
             CTeViewModelDetails cteModel = CTeViewModelDetails.FromEntity(cte);
             return cteModel;
         }
         public void Delete(int id)
         {
-            CTe CTe = _context.Set<CTe>().Where(c => c.IsDeleted == false).SingleOrDefault(c => c.Id == id);
-            CTe.SetAsDeleted();
+            CTe CTe = _context.Set<CTe>().SingleOrDefault(c => c.Id == id);
             _context.Update(CTe);
             _context.SaveChanges();
         }
         public CTe CalculaValorBaseSimples(int id)
         {
-            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).Where(c=>c.IsDeleted==false).SingleOrDefault(c=>c.Id == id);
+            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).SingleOrDefault(c=>c.Id == id);
             cte.CalculaValorBaseSimples();
             _context.Update(cte);
             _context.SaveChanges();
@@ -50,7 +49,7 @@ namespace RegistrosCTe.Application.Services.CTeService
         }
         public CTe CalculaValorBasePorDentro(int id)
         {
-            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).Where(c => c.IsDeleted == false).SingleOrDefault(c => c.Id == id);
+            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).SingleOrDefault(c => c.Id == id);
             cte.CalculaValorBasePorDentro();
             _context.Update(cte);
             _context.SaveChanges();

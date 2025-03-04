@@ -25,7 +25,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
 
         public List<CargaViewModel> GetAll()
         {
-            List<Carga> cargas = _context.Set<Carga>().AsNoTracking().Where(c => c.IsDeleted == false).ToList();
+            List<Carga> cargas = _context.Set<Carga>().AsNoTracking().ToList();
             if (cargas is null) throw new Exception("Cargas não encontradas");
             List<CargaViewModel> cargasModel = cargas.Select(c => CargaViewModel.FromEntity(c)).ToList();
             return cargasModel;
@@ -33,7 +33,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
 
         public CargaViewModelDetails GetById(int id)
         {
-            Carga carga = _context.Set<Carga>().Where(c => c.IsDeleted == false).Include(c => c.Viagem).SingleOrDefault(v => v.Id == id);
+            Carga carga = _context.Set<Carga>().Include(c => c.Viagem).SingleOrDefault(v => v.Id == id);
             if (carga is null) throw new Exception("Carga não encontrada!");
             CargaViewModelDetails cargaModel = CargaViewModelDetails.FromEntity(carga);
             return cargaModel;
@@ -41,7 +41,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
 
         public void Update(int id, CargaInputModel cargaModel)
         {
-            Carga carga = _context.Set<Carga>().Include(c=>c.Viagem).SingleOrDefault(v => v.Id == id);
+            Carga carga = _context.Set<Carga>().SingleOrDefault(v => v.Id == id);
             if (carga.Viagem != null) throw new Exception("Carga não pode ser atualizada!");
             Carga cargaUpdated = cargaModel.ToEntity();
             if (carga is null) throw new Exception("Carga não encontrada!");
@@ -56,7 +56,6 @@ namespace RegistrosCTe.Application.Services.CargaServices
             if (carga.Viagem != null||carga.Viagem.CTe!=null) throw new Exception("Carga não pode ser Atualiada!");
 
             if (carga is null) throw new Exception("Carga não encontrada!");
-            carga.SetAsDeleted();
             _context.Update(carga);
             _context.SaveChanges();
         }

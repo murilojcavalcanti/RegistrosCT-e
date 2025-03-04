@@ -11,7 +11,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         ViagemViewModelDetails GetById(int id); 
 
-        void Update(int id, ViagemInputModel viagemModel);
+        void Update(int id, ViagemUpdateInputModel viagemModel);
 
         void Delete(int id);
     }

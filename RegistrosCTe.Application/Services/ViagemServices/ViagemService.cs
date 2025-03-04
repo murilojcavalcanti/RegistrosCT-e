@@ -43,7 +43,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
             return viagemModel;
         }
 
-        public void Update(int id, ViagemInputModel viagemModel)
+        public void Update(int id, ViagemUpdateInputModel viagemModel)
         {
             Viagem viagem = _context.Set<Viagem>()
                 .Where(v => v.IsDeleted == false).Include(v=>v.CTe)
@@ -51,7 +51,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
            if(viagem.CTe!=null) throw new Exception("Viagem não pode ser Atualizada!");
             if (viagem is null) throw new Exception("Viagem não encontrada!");
             
-            Viagem viagemUpdated = viagemModel.ToEntity();
+            Viagem viagemUpdated = viagemModel.ToEntity(viagem.CargaId);
 
             viagem.Update(viagemUpdated);
             _context.SaveChanges();

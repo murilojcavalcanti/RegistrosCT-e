@@ -5,7 +5,7 @@ using RegistrosCTe.Domain.Entities;
 
 namespace RegistrosCTe.Application.Services.CTeService
 {
-    public class CTeService
+    public class CTeService:ICTeService
     {
         private readonly AppDbContext _context;
 

@@ -45,10 +45,10 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             return despesaModel;
         }
 
-        public void Update(int id, DespesaAdicionalInputModel DespesaModel)
+        public void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel)
         {
-            DespesaAdicional despesaUpdated = DespesaModel.ToEntity();
             DespesaAdicional despesa = _context.Set<DespesaAdicional>().Where(d => d.IsDeleted).SingleOrDefault(v => v.Id == id);
+            DespesaAdicional despesaUpdated = DespesaModel.ToEntity(despesa.ViagemId);
             if (despesa is null) throw new Exception("Despesa não encontrada!");
             despesa.Update(despesaUpdated);
             _context.SaveChanges();

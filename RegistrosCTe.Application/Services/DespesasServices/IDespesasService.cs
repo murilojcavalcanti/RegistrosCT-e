@@ -8,7 +8,7 @@ namespace RegistrosCTe.Application.Services.DespesasServices
         DespesaAdicional Post(DespesaAdicionalInputModel DespesaModel);
         List<DespesaAdicionalViewModel> GetAll();
         DespesaAdicionalViewModelDetails GetById(int id);
-        void Update(int id, DespesaAdicionalInputModel DespesaModel);
+        void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel);
         void Delete(int id);
     }
 }

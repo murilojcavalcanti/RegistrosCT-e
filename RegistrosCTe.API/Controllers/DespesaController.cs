@@ -10,17 +10,11 @@ namespace RegistrosCTe.API.Controllers
     [ApiController]
     public class DespesaController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly IDespesasService _Service;
 
         public DespesaController(IDespesasService service)
         {
             _Service = service;
-        }
-
-        public DespesaController(AppDbContext context)
-        {
-            _context = context;
         }
         [HttpPost]
         public IActionResult Post(DespesaAdicionalInputModel DespesaModel)
@@ -44,7 +38,7 @@ namespace RegistrosCTe.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Update(int id, DespesaAdicionalInputModel DespesaModel)
+        public IActionResult Update(int id, DespesaAdicionalUpdateInputModel DespesaModel)
         {
             _Service.Update(id, DespesaModel);
             return Ok();

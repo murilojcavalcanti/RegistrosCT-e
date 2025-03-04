@@ -38,7 +38,7 @@ namespace RegistrosCTe.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Update(int id,ViagemInputModel viagemModel)
+        public IActionResult Update(int id,ViagemUpdateInputModel viagemModel)
         {
             _Service.Update(id, viagemModel);
             return Ok();

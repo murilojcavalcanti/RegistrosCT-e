@@ -10,14 +10,13 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class CTe:BaseEntity
     {
-        public CTe(decimal aliquota,decimal valorCTe, decimal valorICMS, int viagemId)
+        public CTe(decimal aliquota, int viagemId)
         {
             Aliquota = aliquota;
-            ValorCTe = valorCTe;
-            ValorICMS = valorICMS;
             ViagemId = viagemId;
             DataEmissao = DateTime.Now;
         }
+
 
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Column(TypeName = "decimal(10,2)")]

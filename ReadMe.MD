@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Esta é uma API RESTful desenvolvida em ASP.NET Core para o gerenciamento de Conhecimentos de Transporte Eletrônico (CT-e) e informações relacionadas a viagens, cargas e despesas adicionais. A API permite criar, consultar, atualizar e excluir registros de CT-e, além de fornecer funcionalidades para cálculo de frete e emissão de relatórios.
+Esta é uma API RESTful desenvolvida em ASP.NET Core para o gerenciamento de Conhecimentos de Transporte Eletrônico (CT-e) e informações relacionadas a viagens, cargas e despesas adicionais. A API permite criar, consultar, atualizar e excluir registros de CT-e.
 
 ## Funcionalidades Principais
 
@@ -64,9 +64,9 @@ Este sistema segue um fluxo específico para garantir a integridade dos dados e 
 |       |              |                        |
 | :---- | :----------- | :---------------       |
 | Carga | --> Viagem   | --> DespesaAdicional   |
-|       |       ▲      |                        |
-|       |       │      |                        |
-|       |      CTe     |                        |
+|       |         ▲    |                        |
+|       |         │    |                        |
+|       |        CTe   |                        |
 
 Este diagrama ilustra as dependências entre as entidades. A `Viagem` depende da `Carga`, e tanto a `DespesaAdicional` quanto o `CTe` dependem da `Viagem`.
 
@@ -94,28 +94,27 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone [URL do seu repositório]
-    cd [nome do seu projeto]
+    git clone https://github.com/murilojcavalcanti/RegistrosCT-e.git
     ```
 
 2.  **Configure a string de conexão do banco de dados:**
     *   Abra o arquivo `appsettings.json`.
     *   Localize a seção de configuração da string de conexão (`ConnectionStrings`).
-    *   Modifique a string de conexão para apontar para o seu servidor SQL Server (ou outro banco de dados) e o banco de dados que você deseja usar. Exemplo:
+    *   Caso esteja usando uma forma de autenticação diferente em seu SQL Server modifique a string de conexão para apontar para o seu servidor. Exemplo:
 
         ```json
         "ConnectionStrings": {
-          "DefaultConnection": "Server=seu_servidor;Database=RegistrosCTeDB;User Id=seu_usuario;Password=sua_senha;"
+           "cteApp": "Server=localhost;Database=cteAppDb; integrated Security=true; trustServerCertificate=true;""
         }
         ```
 
 3.  **Execute as migrações do EF Core:**
 
-    *   Abra o console do gerenciador de pacotes (Tools -> NuGet Package Manager -> Package Manager Console).
+    *   Abra o console na pasta ResgistroCTe.Infra.
     *   Execute o seguinte comando para aplicar as migrações e criar o banco de dados:
 
         ```powershell
-        Update-Database
+        dotnet ef database update -s ..\RegistrosCTe.API\
         ```
 
 ## Como Executar a API
@@ -133,7 +132,7 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
 
 4.  **Acesse a documentação do Swagger:**
 
-    *   Após a execução da API, abra um navegador e acesse o endereço `https://localhost:[porta]/swagger`, substituindo `[porta]` pela porta que a sua aplicação está utilizando (geralmente 5001 para HTTPS ou 5000 para HTTP).
+    *   Após a execução da API, abra um navegador e acesse o endereço `http://localhost:5034/swagger/index.html`.
     *   A interface do Swagger permitirá que você explore os endpoints da API, execute requisições e veja as respostas.
 
 ## Testes Unitários

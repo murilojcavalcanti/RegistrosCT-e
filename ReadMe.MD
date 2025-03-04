@@ -61,12 +61,12 @@ Este sistema segue um fluxo específico para garantir a integridade dos dados e 
 
 **Diagrama Simplificado:**
 
-|       |              |                        |
-| :---- | :----------- | :---------------       |
-| Carga | -> Viagem    | <-- DespesaAdicional   |
-|       |         ▲    |                        |
-|       |         │    |                        |
-|       |        CTe   |                        |
+|          |              |                        |
+| :----    | :----------- | :---------------       |
+| Carga -->|  Viagem      | <-- DespesaAdicional   |
+|          |         ▲    |                        |
+|          |         │    |                        |
+|          |        CTe   |                        |
 
 Este diagrama ilustra as dependências entre as entidades. A `Viagem` depende da `Carga`, e tanto a `DespesaAdicional` quanto o `CTe` dependem da `Viagem`.
 

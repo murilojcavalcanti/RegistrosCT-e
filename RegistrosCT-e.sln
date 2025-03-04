@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrosCTe.API", "RegistrosCTe.API\RegistrosCTe.API.csproj", "{1E3F22AD-8314-4548-8B8A-9A941A30D71E}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrosCTe.Infra", "RegistrosCTe.Infra\RegistrosCTe.Infra.csproj", "{82FD2215-FD65-4BFB-BBD8-E3031EC4C43A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrosCTe.Application", "RegistrosCTe.Application\RegistrosCTe.Application.csproj", "{CCDAF1FE-C8C5-4849-A2D4-55ADF00FC803}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResgistrosCTe.Tests", "ResgistrosCTe.Tests\ResgistrosCTe.Tests.csproj", "{79952020-03F8-4FB6-AED6-BA198282A665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CCDAF1FE-C8C5-4849-A2D4-55ADF00FC803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDAF1FE-C8C5-4849-A2D4-55ADF00FC803}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDAF1FE-C8C5-4849-A2D4-55ADF00FC803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79952020-03F8-4FB6-AED6-BA198282A665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79952020-03F8-4FB6-AED6-BA198282A665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79952020-03F8-4FB6-AED6-BA198282A665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79952020-03F8-4FB6-AED6-BA198282A665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

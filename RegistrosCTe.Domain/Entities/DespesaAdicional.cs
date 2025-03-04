@@ -24,7 +24,7 @@ namespace RegistrosCTe.Domain.Entities
         public string Nome { get; set; }
         
         [Required(ErrorMessage = "campo Obrigatorio")]
-        [MinLength(4,ErrorMessage ="Quantidade minima de 4 caracteres")]
+        [MinLength(5,ErrorMessage ="Quantidade minima de 5 caracteres")]
         public string Descricao { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]

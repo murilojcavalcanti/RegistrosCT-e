@@ -28,7 +28,8 @@ namespace RegistrosCTe.Domain.Entities
         public decimal ValorICMS { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
-        [Column(TypeName = "decimal(10,2)")]
+        [Column(TypeName = "decimal(10,3)")]
+        [Range(1,100,ErrorMessage ="O valor da aliquota vai de 1% a 100%")]
         public decimal Aliquota { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -36,6 +37,7 @@ namespace RegistrosCTe.Domain.Entities
         public DateTime DataEmissao { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [Range(1,int.MaxValue,ErrorMessage ="O valor minimo é 1")]
         public int ViagemId { get; set; }
         public Viagem Viagem { get; set; }
 

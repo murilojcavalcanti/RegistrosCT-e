@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrosCTe.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResgistrosCTe.Tests", "ResgistrosCTe.Tests\ResgistrosCTe.Tests.csproj", "{79952020-03F8-4FB6-AED6-BA198282A665}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{010915C6-6D67-440C-AF46-F9A36F785D43}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.MD = ReadMe.MD
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

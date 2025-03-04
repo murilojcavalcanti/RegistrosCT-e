@@ -41,8 +41,9 @@ namespace RegistrosCTe.Application.Services.CargaServices
 
         public void Update(int id, CargaInputModel cargaModel)
         {
+            Carga carga = _context.Set<Carga>().Include(c=>c.Viagem).SingleOrDefault(v => v.Id == id);
+            if (carga.Viagem != null) throw new Exception("Carga não pode ser atualizada!");
             Carga cargaUpdated = cargaModel.ToEntity();
-            Carga carga = _context.Set<Carga>().SingleOrDefault(v => v.Id == id);
             if (carga is null) throw new Exception("Carga não encontrada!");
             carga.Update(cargaUpdated);
             _context.SaveChanges();

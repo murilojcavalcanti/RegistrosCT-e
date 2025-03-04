@@ -11,15 +11,17 @@ namespace RegistrosCTe.Application.Models.ViagemModels
 {
     public class ViagemViewModel
     {
-        public ViagemViewModel(string origem, string destino, decimal distancia, DateTime dataInicio, decimal valorFrete)
+        public ViagemViewModel(string origem, string destino, decimal distancia, DateTime dataInicio, decimal valorFrete, int viagemId)
         {
             Origem = origem;
             Destino = destino;
             Distancia = distancia;
             DataInicio = dataInicio;
             ValorFrete = valorFrete;
+            ViagemId = viagemId;
         }
 
+        public int ViagemId { get; set; }
         public string Origem { get; set; }
         public string Destino { get; set; }
         public decimal Distancia { get; set; }
@@ -27,7 +29,6 @@ namespace RegistrosCTe.Application.Models.ViagemModels
         public decimal ValorFrete { get; set; }
         
         public static ViagemViewModel FromEntity(Viagem viagem)
-            => new(viagem.Origem, viagem.Destino, viagem.Distancia, viagem.DataInicio, viagem.ValorFrete);
-            
+            => new(viagem.Origem, viagem.Destino, viagem.Distancia, viagem.DataInicio, viagem.ValorFrete,viagem.Id);
     }
 }

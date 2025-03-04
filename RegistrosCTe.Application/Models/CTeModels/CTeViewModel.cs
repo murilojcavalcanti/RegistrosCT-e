@@ -10,18 +10,20 @@ namespace RegistrosCTe.Application.Models.CTeModels
 {
     public class CTeViewModel
     {
-        public CTeViewModel(decimal valorCTe, decimal iCMS, DateTime dataEmissao)
+        public CTeViewModel(decimal valorCTe, decimal iCMS, DateTime dataEmissao, int cTeId)
         {
             ValorCTe = valorCTe;
             ICMS = iCMS;
             DataEmissao = dataEmissao;
+            CTeId = cTeId;
         }
 
+        public int CTeId { get; set; }
         public decimal ValorCTe { get; set; }
         public decimal ICMS { get; set; }
         public DateTime DataEmissao { get; set; }
 
         public static CTeViewModel FromEntity(CTe CTe)
-            => new(CTe.ValorCTe,CTe.ValorICMS,CTe.DataEmissao);
+            => new(CTe.ValorCTe,CTe.ValorICMS,CTe.DataEmissao,CTe.Id);
     }
 }

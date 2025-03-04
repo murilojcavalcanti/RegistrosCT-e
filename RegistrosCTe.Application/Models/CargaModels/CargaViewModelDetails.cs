@@ -11,27 +11,21 @@ namespace RegistrosCTe.Application.Models.CargaModels
 {
     public class CargaViewModelDetails
     {
-        public CargaViewModelDetails(int quantidade, decimal peso, decimal volume, Viagem viagem)
+        public CargaViewModelDetails(int quantidade, decimal peso, decimal volume, Viagem viagem, int cargaId)
         {
             Quantidade = quantidade;
             Peso = peso;
             Volume = volume;
-            Viagem =ViagemViewModel.FromEntity(viagem);
+            Viagem = viagem != null ? ViagemViewModel.FromEntity(viagem) : null;
+            CargaId = cargaId;
         }
 
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
+        public int CargaId { get; set; }
         public int Quantidade { get; set; }
-
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Peso { get; set; }
-
-        [Required(ErrorMessage = "campo Obrigatorio")]
-        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Volume { get; set; }
         public virtual ViagemViewModel Viagem { get; set; }
         public static CargaViewModelDetails FromEntity(Carga carga)
-                => new(carga.Quantidade, carga.Peso, carga.Volume, carga.Viagem);
+                => new(carga.Quantidade, carga.Peso, carga.Volume, carga.Viagem, carga.Id);
     }
 }

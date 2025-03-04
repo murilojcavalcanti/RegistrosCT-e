@@ -14,17 +14,19 @@ namespace RegistrosCTe.Application.Models.ViagemModels
     public class ViagemViewModelDetails
     {
         public ViagemViewModelDetails(string origem, string destino, decimal distancia, DateTime dataInicio, decimal valorFrete,
-            Carga carga, List<DespesaAdicional> despesaAdicionais)
+            Carga carga, List<DespesaAdicional> despesaAdicionais, int viagemId)
         {
             Origem = origem;
             Destino = destino;
             Distancia = distancia;
             DataInicio = dataInicio;
             ValorFrete = valorFrete;
-            Carga = CargaViewModel.FromEntity(carga);
-            DespesaAdicionais = despesaAdicionais.Select(d =>DespesaAdicionalViewModel.FromEntity(d)).ToList();
+            Carga = carga != null ? CargaViewModel.FromEntity(carga) : null;
+            DespesaAdicionais = despesaAdicionais.Count != null ? despesaAdicionais.Select(d => DespesaAdicionalViewModel.FromEntity(d)).ToList() : null;
+            ViagemId = viagemId;
         }
 
+        public int ViagemId { get; set; }
         public string Origem { get; set; }
         public string Destino { get; set; }
         public decimal Distancia { get; set; }
@@ -34,6 +36,6 @@ namespace RegistrosCTe.Application.Models.ViagemModels
         public List<DespesaAdicionalViewModel> DespesaAdicionais { get; set; }
 
         public static ViagemViewModelDetails FromEntity(Viagem viagem)
-            => new(viagem.Origem,viagem.Destino,viagem.Distancia,viagem.DataInicio,viagem.ValorFrete,viagem.Carga,viagem.DespesaAdicionais);
+            => new(viagem.Origem,viagem.Destino,viagem.Distancia,viagem.DataInicio,viagem.ValorFrete,viagem.Carga,viagem.DespesaAdicionais,viagem.Id);
     }
 }

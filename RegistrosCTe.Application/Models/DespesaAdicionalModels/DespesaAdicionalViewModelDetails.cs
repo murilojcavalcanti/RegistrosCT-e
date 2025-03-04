@@ -12,19 +12,21 @@ namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
 {
     public class DespesaAdicionalViewModelDetails
     {
-        public DespesaAdicionalViewModelDetails(string nome, string description, decimal valor, Viagem viagem)
+        public DespesaAdicionalViewModelDetails(string nome, string description, decimal valor, Viagem viagem, int despesasId)
         {
             Nome = nome;
             Description = description;
             Valor = valor;
-            Viagem = ViagemViewModel.FromEntity(viagem);
+            Viagem = viagem!=null ? ViagemViewModel.FromEntity(viagem) : null;
+            DespesasId = despesasId;
         }
 
+        public int DespesasId { get; set; }
         public string Nome { get; set; }
         public string Description { get; set; }
         public decimal Valor { get; set; }
         public virtual ViagemViewModel Viagem { get; set; }
         public static DespesaAdicionalViewModelDetails FromEntity(DespesaAdicional DespesaAdicional)
-            => new(DespesaAdicional.Nome,DespesaAdicional.Descricao,DespesaAdicional.Valor,DespesaAdicional.Viagem);
+            => new(DespesaAdicional.Nome,DespesaAdicional.Descricao,DespesaAdicional.Valor,DespesaAdicional.Viagem,DespesaAdicional.Id);
     }
 }

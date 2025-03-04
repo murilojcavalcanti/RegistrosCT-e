@@ -19,7 +19,8 @@ namespace RegistrosCTe.API.Controllers
         }
 
         /// <summary>
-        /// Adiciona uma nova carga ao banco de dados
+        /// Adiciona uma nova carga ao banco de dados. 
+        /// Obs: Peso em tonelada
         /// </summary>
         /// <param name="cargaModel">Objeto com os campos necessários para criação de uma carga</param>
         /// <returns>Retorna a carga criada.</returns>

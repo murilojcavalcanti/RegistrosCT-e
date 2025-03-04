@@ -41,11 +41,11 @@ namespace RegistrosCTe.API.Controllers
             try
             {
                 CTe cte = _Service.Post(cteModel);
-                return CreatedAtAction(nameof(GetById), new { id = cte.Id }, CTeViewModelDetails.FromEntity(cte));
+                return CreatedAtAction(nameof(GetById), new { id = cte.Id }, CTeViewModel.FromEntity(cte));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro interno: {ex.Message}");
             }
         }
 
@@ -75,7 +75,7 @@ namespace RegistrosCTe.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro interno: {ex.Message}");
             }
         }
 
@@ -106,7 +106,7 @@ namespace RegistrosCTe.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro interno: {ex.Message}");
             }
         }
 
@@ -137,7 +137,7 @@ namespace RegistrosCTe.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro interno: {ex.Message}");
             }
         }
     }

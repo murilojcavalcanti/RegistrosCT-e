@@ -31,13 +31,10 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Aliquota")
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(10,3)");
 
                     b.Property<DateTime>("DataEmissao")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("ValorCTe")
                         .HasColumnType("decimal(10,2)");
@@ -64,9 +61,6 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("Peso")
                         .HasColumnType("decimal(10,3)");
 
@@ -92,9 +86,6 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -133,9 +124,6 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
 
                     b.Property<decimal>("Distancia")
                         .HasColumnType("decimal(10,3)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Origem")
                         .IsRequired()

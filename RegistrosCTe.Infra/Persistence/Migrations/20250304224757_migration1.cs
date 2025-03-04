@@ -19,8 +19,7 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     Peso = table.Column<decimal>(type: "decimal(10,3)", nullable: false),
-                    Volume = table.Column<decimal>(type: "decimal(10,3)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Volume = table.Column<decimal>(type: "decimal(10,3)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,8 +37,7 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                     Distancia = table.Column<decimal>(type: "decimal(10,3)", nullable: false),
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ValorFrete = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CargaId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CargaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,10 +58,9 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ValorCTe = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     ValorICMS = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    Aliquota = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Aliquota = table.Column<decimal>(type: "decimal(10,3)", nullable: false),
                     DataEmissao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ViagemId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ViagemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,8 +82,7 @@ namespace RegistrosCTe.Infra.Persistence.Migrations
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    ViagemId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ViagemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

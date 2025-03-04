@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RegistrosCTe.Application\RegistrosCTe.Application.csproj" />
     <ProjectReference Include="..\RegistrosCTe.Domain\RegistrosCTe.Domain.csproj" />
   </ItemGroup>
 

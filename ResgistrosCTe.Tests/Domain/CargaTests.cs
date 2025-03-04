@@ -14,7 +14,7 @@ namespace ResgistrosCTe.Tests.Domain
             decimal volume = 5.200m;
 
             // Act
-            var carga = new Carga(quantidade, peso, volume);
+            Carga carga = new Carga(quantidade, peso, volume);
 
             // Assert
             Assert.Equal(quantidade, carga.Quantidade);
@@ -29,7 +29,7 @@ namespace ResgistrosCTe.Tests.Domain
         public void Carga_CriarCargaComValoresNegativos_DeveInvalidarDataAnnotations(int quantidade, decimal peso, decimal volume)
         {
             // Arrange
-            var carga = new Carga(quantidade, peso, volume);
+            Carga carga = new Carga(quantidade, peso, volume);
             var validationContext = new ValidationContext(carga, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -45,8 +45,8 @@ namespace ResgistrosCTe.Tests.Domain
         public void Carga_Update_DeveAtualizarPropriedades()
         {
             // Arrange
-            var cargaOriginal = new Carga(10, 100.500m, 5.200m);
-            var cargaAtualizada = new Carga(20, 200.750m, 10.500m);
+            Carga cargaOriginal = new Carga(10, 100.500m, 5.200m);
+            Carga cargaAtualizada = new Carga(20, 200.750m, 10.500m);
 
             // Act
             cargaOriginal.Update(cargaAtualizada);

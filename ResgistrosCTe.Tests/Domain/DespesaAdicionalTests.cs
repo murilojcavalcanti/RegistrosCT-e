@@ -25,7 +25,7 @@ namespace ResgistrosCTe.Tests.Domain
         }
 
         [Theory]
-        [InlineData("Alim", "Descricao", 50, 1)] 
+        [InlineData("Ali", "Descricao", 50, 1)] 
         [InlineData("Nome", "Desc", 50, 1)] 
         [InlineData("Nome", "Descricao", -1, 1)] 
         public void DespesaAdicional_CriarDespesaComDadosInvalidos_DeveInvalidarDataAnnotations(string nome, string descricao, decimal valor, int viagemId)

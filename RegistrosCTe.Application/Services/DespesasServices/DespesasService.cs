@@ -45,18 +45,20 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             return despesaModel;
         }
 
-        public void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel)
+        public void Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
         {
             DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).SingleOrDefault(v => v.Id == id);
-            DespesaAdicional despesaUpdated = DespesaModel.ToEntity(despesa.ViagemId);
+            DespesaAdicional despesaUpdated = despesaModel.ToEntity(despesa.ViagemId);
+            if(despesa is null) throw new Exception("Despesa não encontrada!");
             if(despesa.Viagem.CTe != null ) throw new Exception("Despesa não pode ser atualizada!");
-            if (despesa is null) throw new Exception("Despesa não encontrada!");
+            
+            bool isEqual = despesa.Valor == despesaModel.Valor;
+            
             despesa.Update(despesaUpdated);
             _context.SaveChanges();
 
-            Viagem viagem = _context.Set<Viagem>().Include(v => v.DespesaAdicionais).Include(v=>v.CTe).SingleOrDefault(v => v.Id == despesa.ViagemId);
-            DespesaAdicional despesaViagem = viagem.DespesaAdicionais.FirstOrDefault(d => d.Id == despesa.Id);
-            if (despesa.Valor != despesaViagem.Valor)
+            Viagem viagem = _context.Set<Viagem>().Include(v => v.DespesaAdicionais).SingleOrDefault(v => v.Id == despesa.ViagemId);
+            if (!isEqual)
             {
                 viagem.CalculaValorFrete();
                 viagem.Update(viagem);

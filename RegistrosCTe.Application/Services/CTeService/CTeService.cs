@@ -18,13 +18,13 @@ namespace RegistrosCTe.Application.Services.CTeService
             CTe cte = cteModel.ToEntity();
             _context.Set<CTe>().Add(cte);
             _context.SaveChanges();
-            CalculaValorBasePorDentro(cte.Id);
-            return cte;
+            CTe cteCalculado = CalculaValorBasePorDentro(cte.Id);
+            return cteCalculado;
         }
         public List<CTeViewModel> GetAll()
         {
-            List<CTe> ctes = _context.Set<CTe>().ToList();   
-            List<CTeViewModel> cteModels= ctes.Select(c=>CTeViewModel.FromEntity(c)).ToList();   
+            var ctes = _context.Set<CTe>().Select(c=> new {c.Id,c.ValorCTe,c.ValorICMS,valorFrete = c.Viagem.ValorFrete,c.DataEmissao} ).ToList();   
+            List<CTeViewModel> cteModels= ctes.Select(c=>CTeViewModel.FromEntity(c.ValorCTe,c.ValorICMS,c.DataEmissao,c.Id, c.valorFrete)).ToList();   
             return cteModels;
         }
         public CTeViewModelDetails GetById(int id)
@@ -49,7 +49,7 @@ namespace RegistrosCTe.Application.Services.CTeService
         }
         public CTe CalculaValorBasePorDentro(int id)
         {
-            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).SingleOrDefault(c => c.Id == id);
+            CTe cte = _context.Set<CTe>().Include(c=>c.Viagem).SingleOrDefault(c => c.Id == id);
             cte.CalculaValorBasePorDentro();
             _context.Update(cte);
             _context.SaveChanges();

@@ -7,7 +7,7 @@ using RegistrosCTe.Infra.Repostories.ViagemRepositories;
 
 namespace RegistrosCTe.Application.Services.ViagemService
 {
-    public class ViagemService:IViagemService
+    public class ViagemService : IViagemService
     {
         private readonly AppDbContext _context;
         private readonly IViagemRepository _ViagemRepository;
@@ -18,61 +18,96 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         public ViagemViewModel Post(ViagemInputModel model)
         {
-            Viagem viagem = model.ToEntity();
-            _ViagemRepository.Post(viagem);
-            ViagemViewModel viagemCreated = ViagemViewModel.FromEntity(CalculaValorFrete(viagem.Id));
-            return viagemCreated;
+            try
+            {
+                Viagem viagem = model.ToEntity();
+                _ViagemRepository.Post(viagem);
+                ViagemViewModel viagemCreated = ViagemViewModel.FromEntity(CalculaValorFrete(viagem.Id));
+                return viagemCreated;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
 
         public List<ViagemViewModel> GetAll()
         {
-            List<Viagem> viagens = _ViagemRepository.GetAll();
-            if (viagens == null)  throw new Exception("Viagens não existem");
-            List<ViagemViewModel> viagemViewModel = viagens.Select(v => ViagemViewModel.FromEntity(v)).ToList();
-            return viagemViewModel;
+            try
+            {
+                List<Viagem> viagens = _ViagemRepository.GetAll();
+                if (viagens == null) throw new Exception("Viagens não existem");
+                List<ViagemViewModel> viagemViewModel = viagens.Select(v => ViagemViewModel.FromEntity(v)).ToList();
+                return viagemViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
 
         public ViagemViewModelDetails GetById(int id)
         {
-            Viagem viagem = _ViagemRepository.GetById(id);
-            if (viagem == null) throw new Exception("Viagem não existe");
-            ViagemViewModelDetails viagemModel = ViagemViewModelDetails.FromEntity(viagem);
-            return viagemModel;
+            try
+            {
+                Viagem viagem = _ViagemRepository.GetById(id);
+                if (viagem == null) throw new Exception("Viagem não existe");
+                ViagemViewModelDetails viagemModel = ViagemViewModelDetails.FromEntity(viagem);
+                return viagemModel;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
 
         public void Update(int id, ViagemUpdateInputModel viagemModel)
         {
-            Viagem viagemUpdated = viagemModel.ToEntity();
-            Viagem viagem = _ViagemRepository.GetById(id);
-            if (viagem is null) throw new Exception("Viagem não encontrada!");
-            if (viagem.CTe != null) throw new Exception("Viagem não pode ser Atualizada!");
-            viagem.Update(viagemUpdated);
-            _ViagemRepository.Update(viagem);
-
-            
+            try
+            {
+                Viagem viagemUpdated = viagemModel.ToEntity();
+                Viagem viagem = _ViagemRepository.GetById(id);
+                if (viagem is null) throw new Exception("Viagem não encontrada!");
+                if (viagem.CTe != null) throw new Exception("Viagem não pode ser Atualizada!");
+                viagem.Update(viagemUpdated);
+                _ViagemRepository.Update(viagem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
 
         public void Delete(int id)
         {
-            Viagem viagem = _ViagemRepository.GetById(id);
-            if (viagem is null) throw new Exception("Viagem não encontrada!");
+            try
+            {
+                Viagem viagem = _ViagemRepository.GetById(id);
+                if (viagem is null) throw new Exception("Viagem não encontrada!");
 
-            _ViagemRepository.Delete(viagem);
+                _ViagemRepository.Delete(viagem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
 
         public Viagem CalculaValorFrete(int id)
         {
-            Viagem viagem = _ViagemRepository.GetById(id);
-            viagem.CalculaValorFrete();
-            _ViagemRepository.Update(viagem);
-            return viagem;
+            try
+            {
+                Viagem viagem = _ViagemRepository.GetById(id);
+                if (viagem.CTe != null) throw new Exception("Viagem não pode ser atualizada!");
+                viagem.CalculaValorFrete();
+                _ViagemRepository.Update(viagem);
+                return viagem;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro no processamento:{ex.Message}!");
+            }
         }
-        public Viagem RecalculaValorFrete(int id, decimal despesa)
-        {
-            Viagem viagem = _ViagemRepository.GetById(id);
-            viagem.RecalculaValorFrete(despesa);
-            _ViagemRepository.Update(viagem);
-            return viagem;
-        }
+        
     }
 }

@@ -16,6 +16,5 @@ namespace RegistrosCTe.Application.Services.ViagemService
         void Delete(int id);
 
         Viagem CalculaValorFrete(int id);
-        Viagem RecalculaValorFrete(int id, decimal despesa);
     }
 }

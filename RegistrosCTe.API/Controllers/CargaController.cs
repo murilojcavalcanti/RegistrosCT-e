@@ -63,7 +63,7 @@ namespace RegistrosCTe.API.Controllers
         {
             try
             {
-                List<CargaViewModel> cargasModel = await _Service.GetAllAsync();
+                List<CargaViewModel> cargasModel = await _Service.GetAll();
 
                 if (cargasModel == null || !cargasModel.Any())
                 {
@@ -94,7 +94,7 @@ namespace RegistrosCTe.API.Controllers
         {
             try
             {
-                CargaViewModelDetails cargaModel = await _Service.GetByIdAsync(id);
+                CargaViewModelDetails cargaModel = await _Service.GetById(id);
 
                 if (cargaModel == null)
                 {
@@ -131,7 +131,7 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                _Service.UpdateAsync(id, cargaModel);
+                await _Service.Update(id, cargaModel);
                 return NoContent();
             }
             catch (Exception ex)
@@ -153,7 +153,7 @@ namespace RegistrosCTe.API.Controllers
         {
             try
             {
-                _Service.DeleteAsync(id);
+                await _Service.Delete(id);
                 return NoContent();
             }
             catch (Exception ex)

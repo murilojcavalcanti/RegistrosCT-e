@@ -93,7 +93,7 @@ namespace RegistrosCTe.API.Controllers
         {
             try
             {
-                DespesaAdicionalViewModelDetails despesaModel = await _Service.GetByIdAsync(id);
+                DespesaAdicionalViewModelDetails despesaModel = await _Service.GetById(id);
 
                 if (despesaModel == null)
                 {
@@ -121,7 +121,7 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Update(int id, DespesaAdicionalUpdateInputModel DespesaModel)
+        public async Task<IActionResult> UpdateAsync(int id, DespesaAdicionalUpdateInputModel DespesaModel)
         {
             if (DespesaModel == null || !ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                _Service.Update(id, DespesaModel);
+                await _Service.Update(id, DespesaModel);
                 return NoContent();
             }
             catch (Exception ex)
@@ -149,11 +149,11 @@ namespace RegistrosCTe.API.Controllers
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
-                _Service.Delete(id);
+                await _Service.Delete(id);
                 return NoContent();
             }
             catch (Exception ex)

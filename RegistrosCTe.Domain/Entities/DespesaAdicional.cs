@@ -18,6 +18,12 @@ namespace RegistrosCTe.Domain.Entities
             Valor = valor;
             ViagemId = viagemId;
         }
+        public DespesaAdicional(string nome, string descricao, decimal valor)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Valor = valor;
+        }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
         [MinLength(4,ErrorMessage ="Quantidade minima de 4 caracteres")]

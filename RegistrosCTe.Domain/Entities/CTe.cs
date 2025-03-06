@@ -49,8 +49,8 @@ namespace RegistrosCTe.Domain.Entities
         {
             decimal PortentagemAliquota = (Aliquota / 100);
             decimal baseCalculo = Viagem.ValorFrete / (1 - PortentagemAliquota);
-            ValorICMS = baseCalculo * PortentagemAliquota;
-            ValorCTe = baseCalculo;
+            ValorICMS = Math.Round((baseCalculo * PortentagemAliquota),3);
+            ValorCTe = Math.Round(baseCalculo,3);
         }
         
     }

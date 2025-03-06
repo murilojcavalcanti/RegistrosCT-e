@@ -13,6 +13,13 @@ namespace RegistrosCTe.Domain.Entities
             DataInicio = dataInicio;
             CargaId = cargaId;
         }
+        public Viagem(string origem, string destino, decimal distancia, DateTime dataInicio) : base()
+        {
+            Origem = origem;
+            Destino = destino;
+            Distancia = distancia;
+            DataInicio = dataInicio;
+        }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
         [MinLength(5,ErrorMessage ="O tamanho minimo de 5 caracteres")]

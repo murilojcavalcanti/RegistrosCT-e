@@ -16,12 +16,12 @@ namespace RegistrosCTe.Application.Services.CargaServices
             _Repository = repository;
         }
 
-        public CargaViewModel Post(CargaInputModel cargaModel)
+        public async Task<CargaViewModel> Post(CargaInputModel cargaModel)
         {
             try
             {
                 Carga carga = cargaModel.ToEntity();
-                Carga cargaCreated = _Repository.Post(carga);
+                Carga cargaCreated =await _Repository.Post(carga);
                 return CargaViewModel.FromEntity(cargaCreated);
             }
             catch (Exception ex)
@@ -30,11 +30,11 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public List<CargaViewModel> GetAll()
+        public async Task<List<CargaViewModel>> GetAllAsync()
         {
             try
             {
-                List<Carga> cargas = _Repository.GetAll();
+                List<Carga> cargas = await _Repository.GetAll();
                 List<CargaViewModel> cargasModel = cargas.Select(c => CargaViewModel.FromEntity(c)).ToList();
                 return cargasModel;
             }
@@ -44,11 +44,11 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public CargaViewModelDetails GetById(int id)
+        public async Task<CargaViewModelDetails> GetByIdAsync(int id)
         {
             try
             {
-                Carga carga = _Repository.GetById(id);
+                Carga carga = await _Repository.GetById(id);
                 CargaViewModelDetails cargaModel = CargaViewModelDetails.FromEntity(carga);
                 return cargaModel;
             }
@@ -58,12 +58,12 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public void Update(int id, CargaInputModel cargaModel)
+        public async void UpdateAsync(int id, CargaInputModel cargaModel)
         {
             try
             {
                 Carga cargaUpdated = cargaModel.ToEntity();
-                Carga carga = _Repository.GetById(id);
+                Carga carga = await _Repository.GetById(id);
                 if (carga is null) throw new Exception("Carga não encontrada!");
                 if (carga.Viagem != null) throw new Exception("Carga não pode ser atualizada!");
                 carga.Update(cargaUpdated);
@@ -76,11 +76,11 @@ namespace RegistrosCTe.Application.Services.CargaServices
         }
 
         
-        public void Delete(int id)
+        public async void DeleteAsync(int id)
         {
             try
             {
-                Carga carga = _Repository.GetById(id);
+                Carga carga = await _Repository.GetById(id);
                 if (carga is null) throw new Exception("Carga não encontrada!");
                 if (carga?.Viagem != null) throw new Exception("Carga não pode ser Deletada!");
                 _Repository.Delete(carga);

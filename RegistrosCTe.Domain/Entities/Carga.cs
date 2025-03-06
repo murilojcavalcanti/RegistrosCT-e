@@ -10,6 +10,10 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class Carga:BaseEntity
     {
+        public Carga()
+        {
+            
+        }
         public Carga(int quantidade, decimal peso, decimal volume)
         {
             Quantidade = quantidade;

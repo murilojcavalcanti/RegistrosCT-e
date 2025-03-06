@@ -1,24 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RegistrosCTe.Application.Models.CargaModels;
+﻿using RegistrosCTe.Application.Models.CargaModels;
 using RegistrosCTe.Application.Models.CargaModelss;
-using RegistrosCTe.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistrosCTe.Application.Services.CargaServices
 {
     public interface ICargaService
     {
-        CargaViewModel Post(CargaInputModel cargaModel);
-        List<CargaViewModel> GetAll();
+        Task<CargaViewModel> Post(CargaInputModel cargaModel);
+        Task<List<CargaViewModel>> GetAllAsync();
+        Task<CargaViewModelDetails> GetByIdAsync(int id);
 
-        CargaViewModelDetails GetById(int id);
+        void UpdateAsync(int id, CargaInputModel cargaModel);
 
-        void Update(int id, CargaInputModel cargaModel);
-
-        void Delete(int id);
+        void DeleteAsync(int id);
     }
 }

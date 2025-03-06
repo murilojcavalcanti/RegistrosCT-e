@@ -4,10 +4,9 @@ namespace RegistrosCTe.Infra.Repostories.CargaRepositories
 {
     public interface ICargaRepository
     {
-        Carga Post(Carga carga);
-        List<Carga> GetAll();
-
-        Carga GetById(int id);
+        Task<Carga> Post(Carga carga);
+        Task<List<Carga>> GetAll();
+        Task<Carga> GetById(int id);
         
         void Update(Carga carga);
 

@@ -31,7 +31,7 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(CargaViewModel), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Post(CargaInputModel cargaModel)
+        public async Task<IActionResult> Post(CargaInputModel cargaModel)
         {
             if (cargaModel == null || !ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace RegistrosCTe.API.Controllers
             }
             try
             {
-                CargaViewModel carga = _Service.Post(cargaModel);
+                CargaViewModel carga = await _Service.Post(cargaModel);
                 return CreatedAtAction(nameof(GetById), new { id = carga.CargaId }, carga);
             }
             catch (Exception ex)
@@ -59,11 +59,11 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CargaViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                List<CargaViewModel> cargasModel = _Service.GetAll();
+                List<CargaViewModel> cargasModel = await _Service.GetAllAsync();
 
                 if (cargasModel == null || !cargasModel.Any())
                 {
@@ -90,11 +90,11 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(CargaViewModelDetails), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                CargaViewModelDetails cargaModel = _Service.GetById(id);
+                CargaViewModelDetails cargaModel = await _Service.GetByIdAsync(id);
 
                 if (cargaModel == null)
                 {
@@ -122,7 +122,7 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Update(int id, CargaInputModel cargaModel)
+        public async Task<IActionResult> Update(int id, CargaInputModel cargaModel)
         {
             if (cargaModel == null || !ModelState.IsValid)
             {
@@ -131,7 +131,7 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                _Service.Update(id, cargaModel);
+                _Service.UpdateAsync(id, cargaModel);
                 return NoContent();
             }
             catch (Exception ex)
@@ -149,11 +149,11 @@ namespace RegistrosCTe.API.Controllers
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _Service.Delete(id);
+                _Service.DeleteAsync(id);
                 return NoContent();
             }
             catch (Exception ex)

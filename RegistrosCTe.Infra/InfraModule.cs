@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RegistrosCTe.API.Persistance;
@@ -13,7 +14,7 @@ namespace RegistrosCTe.Infra
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddData(configuration).AddRepository();
+            services.AddData(configuration).AddRepository().AddCaching();
             return services;
         }
         public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
@@ -28,6 +29,29 @@ namespace RegistrosCTe.Infra
             services.AddScoped<IViagemRepository,ViagemRepository>();
             services.AddScoped<IDespesasRepository, DespesasRepository>();
             services.AddScoped<ICTeRepository, CTeRepository>();
+            return services;
+        }
+        public static IServiceCollection AddCaching(this IServiceCollection services)
+        {
+            services.AddStackExchangeRedisCache(r =>
+            {
+                r.InstanceName = "CteCache";
+                r.Configuration = "Localhost:6379";
+            });
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var cache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
+                try
+                {
+                    cache.SetString("test_key", "test_value"); // 🔹 Teste de escrita
+                    var value = cache.GetString("test_key"); // 🔹 Teste de leitura
+                    Console.WriteLine($"Redis funcionando! Valor armazenado: {value}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao conectar ao Redis: {ex.Message}");
+                }
+            }
             return services;
         }
     }

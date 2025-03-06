@@ -7,8 +7,8 @@ namespace RegistrosCTe.Application.Services.DespesasServices
     {
         Task<DespesaAdicionalViewModel> Post(DespesaAdicionalInputModel DespesaModel);
         Task<List<DespesaAdicionalViewModel>> GetAll();
-        Task<DespesaAdicionalViewModelDetails> GetByIdAsync(int id);
-        void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel);
-        void Delete(int id);
+        Task<DespesaAdicionalViewModelDetails> GetById(int id);
+        Task Update(int id, DespesaAdicionalUpdateInputModel DespesaModel);
+        Task Delete(int id);
     }
 }

@@ -7,7 +7,6 @@ namespace RegistrosCTe.Application.Services.CTeService
 {
     public class CTeService:ICTeService
     {
-        private readonly AppDbContext _context;
         private readonly ICTeRepository _Repository;
 
         public CTeService(ICTeRepository repository)

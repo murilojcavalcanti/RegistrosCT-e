@@ -10,10 +10,9 @@ namespace RegistrosCTe.Application.Services.ViagemService
 {
     public class ViagemService : IViagemService
     {
-        private readonly AppDbContext _context;
         private readonly IViagemRepository _ViagemRepository;
         private readonly ICTeService _CTeService;
-        public ViagemService(IViagemRepository viagemRepository, ICargaRepository cargaRepository, ICTeService cTeService)
+        public ViagemService(IViagemRepository viagemRepository, ICTeService cTeService)
         {
             _ViagemRepository = viagemRepository;
             _CTeService = cTeService;

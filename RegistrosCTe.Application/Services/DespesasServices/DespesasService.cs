@@ -45,7 +45,7 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public async Task<DespesaAdicionalViewModelDetails> GetByIdAsync(int id)
+        public async Task<DespesaAdicionalViewModelDetails> GetById(int id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public async void Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
+        public async Task Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
         {
             try
             {
@@ -78,11 +78,12 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
                 DespesaAdicional despesa = await _Repository.GetById(id);
+                if (despesa is null) throw new Exception("Despesa não encontrada!");
                 if (despesa.Viagem.CTe != null) throw new Exception("Despesa não pode ser atualizada!");
                 _Repository.Delete(despesa);
                 _ViagemService.CalculaValorFrete(despesa.ViagemId);

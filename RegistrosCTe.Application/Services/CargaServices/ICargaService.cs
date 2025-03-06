@@ -6,11 +6,11 @@ namespace RegistrosCTe.Application.Services.CargaServices
     public interface ICargaService
     {
         Task<CargaViewModel> Post(CargaInputModel cargaModel);
-        Task<List<CargaViewModel>> GetAllAsync();
-        Task<CargaViewModelDetails> GetByIdAsync(int id);
+        Task<List<CargaViewModel>> GetAll();
+        Task<CargaViewModelDetails> GetById(int id);
 
-        void UpdateAsync(int id, CargaInputModel cargaModel);
+        Task Update(int id, CargaInputModel cargaModel);
 
-        void DeleteAsync(int id);
+        Task Delete(int id);
     }
 }

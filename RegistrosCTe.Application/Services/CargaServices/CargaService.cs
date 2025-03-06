@@ -9,7 +9,6 @@ namespace RegistrosCTe.Application.Services.CargaServices
     public class CargaService:ICargaService
     {
         private readonly ICargaRepository _Repository;
-        private readonly IViagemService _ViagemService;
 
         public CargaService(ICargaRepository repository)
         {
@@ -30,7 +29,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public async Task<List<CargaViewModel>> GetAllAsync()
+        public async Task<List<CargaViewModel>> GetAll()
         {
             try
             {
@@ -44,7 +43,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public async Task<CargaViewModelDetails> GetByIdAsync(int id)
+        public async Task<CargaViewModelDetails> GetById(int id)
         {
             try
             {
@@ -58,7 +57,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
             }
         }
 
-        public async void UpdateAsync(int id, CargaInputModel cargaModel)
+        public async Task Update(int id, CargaInputModel cargaModel)
         {
             try
             {
@@ -76,7 +75,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
         }
 
         
-        public async void DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             try
             {

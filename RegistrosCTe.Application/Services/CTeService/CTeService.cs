@@ -2,58 +2,56 @@
 using RegistrosCTe.API.Persistance;
 using RegistrosCTe.Application.Models.CTeModels;
 using RegistrosCTe.Domain.Entities;
+using RegistrosCTe.Infra.Repostories.CTeRepositories;
 
 namespace RegistrosCTe.Application.Services.CTeService
 {
     public class CTeService:ICTeService
     {
         private readonly AppDbContext _context;
+        private readonly ICTeRepository _Repository;
 
-        public CTeService(AppDbContext context)
+        public CTeService(ICTeRepository repository)
         {
-            _context = context;
+            _Repository = repository;
         }
-        public CTe Post(CTeInputModel cteModel)
+        public CTeViewModel Post(CTeInputModel cteModel)
         {
             CTe cte = cteModel.ToEntity();
-            _context.Set<CTe>().Add(cte);
-            _context.SaveChanges();
-            CTe cteCalculado = CalculaValorBasePorDentro(cte.Id);
+            CTe cteCreated = _Repository.Post(cte);
+            CTeViewModel cteCalculado = CalculaValorBasePorDentro(cteCreated.Id);
             return cteCalculado;
         }
         public List<CTeViewModel> GetAll()
         {
-            var ctes = _context.Set<CTe>().Select(c=> new {c.Id,c.ValorCTe,c.ValorICMS,valorFrete = c.Viagem.ValorFrete,c.DataEmissao} ).ToList();   
+            var ctes = _Repository.GetAll().Select(c=> new {c.Id,c.ValorCTe,c.ValorICMS,valorFrete = c.Viagem.ValorFrete,c.DataEmissao} );   
             List<CTeViewModel> cteModels= ctes.Select(c=>CTeViewModel.FromEntity(c.ValorCTe,c.ValorICMS,c.DataEmissao,c.Id, c.valorFrete)).ToList();   
             return cteModels;
         }
         public CTeViewModelDetails GetById(int id)
         {
-            CTe cte = _context.Set<CTe>().SingleOrDefault(c=>c.Id==id);
+            CTe cte = _Repository.GetById(id);
             CTeViewModelDetails cteModel = CTeViewModelDetails.FromEntity(cte);
             return cteModel;
         }
         public void Delete(int id)
         {
-            CTe CTe = _context.Set<CTe>().SingleOrDefault(c => c.Id == id);
-            _context.Update(CTe);
-            _context.SaveChanges();
+            CTe cte = _Repository.GetById(id);
+            _Repository.Delete(cte);
         }
-        public CTe CalculaValorBaseSimples(int id)
+        public CTeViewModel CalculaValorBaseSimples(int id)
         {
-            CTe cte = _context.Set<CTe>().Include(c => c.Viagem).SingleOrDefault(c=>c.Id == id);
+            CTe cte = _Repository.GetById(id); 
             cte.CalculaValorBaseSimples();
-            _context.Update(cte);
-            _context.SaveChanges();
-            return cte;
+            _Repository.Update(cte);
+            return CTeViewModel.FromEntity(cte.ValorCTe, cte.ValorICMS, cte.DataEmissao, cte.Id, cte.Viagem.ValorFrete);
         }
-        public CTe CalculaValorBasePorDentro(int id)
+        public CTeViewModel CalculaValorBasePorDentro(int id)
         {
-            CTe cte = _context.Set<CTe>().Include(c=>c.Viagem).SingleOrDefault(c => c.Id == id);
+            CTe cte = _Repository.GetById(id);
             cte.CalculaValorBasePorDentro();
-            _context.Update(cte);
-            _context.SaveChanges();
-            return cte;
+            _Repository.Update(cte);
+            return CTeViewModel.FromEntity(cte.ValorCTe, cte.ValorICMS, cte.DataEmissao, cte.Id, cte.Viagem.ValorFrete);
         }
     }
 }

@@ -1,45 +1,38 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RegistrosCTe.API.Persistance;
+﻿using RegistrosCTe.Application.Services.ViagemService;
 using RegistrosCTe.Domain.Entities;
+using RegistrosCTe.Infra.Repostories.DespesasAdicionaisRepositories;
 using RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels;
 
 namespace RegistrosCTe.Application.Services.DespesasServices
 {
     public class DespesasService: IDespesasService
     {
-        private readonly AppDbContext _context;
-
-        public DespesasService(AppDbContext context)
+        private readonly IDespesasRepository _Repository;
+        private readonly IViagemService _ViagemService;
+        public DespesasService(IDespesasRepository repository, IViagemService viagemService)
         {
-            _context = context;
+            _Repository = repository;
+            _ViagemService = viagemService;
         }
 
-        public DespesaAdicional Post(DespesaAdicionalInputModel DespesaModel)
+        public DespesaAdicionalViewModel Post(DespesaAdicionalInputModel despesaModel)
         {
-            DespesaAdicional despesa = DespesaModel.ToEntity();
-            _context.Set<DespesaAdicional>().Add(despesa);
-            _context.SaveChanges();
-
-            Viagem viagem = _context.Set<Viagem>().Include(c => c.Carga)
-                .Include(v => v.DespesaAdicionais)
-                .SingleOrDefault(v => v.Id == DespesaModel.ViagemId);
-            viagem.CalculaValorFrete();
-            viagem.Update(viagem);
-            _context.SaveChanges();
-            
-            return despesa;
+            DespesaAdicional despesa = despesaModel.ToEntity();
+            DespesaAdicionalViewModel despesaCreated = DespesaAdicionalViewModel.FromEntity(_Repository.Post(despesa));
+            _ViagemService.CalculaValorFrete(despesa.ViagemId);
+            return despesaCreated;
         }
 
         public List<DespesaAdicionalViewModel> GetAll()
         {
-            List<DespesaAdicional> despesas = _context.Set<DespesaAdicional>().ToList();
+            List<DespesaAdicional> despesas = _Repository.GetAll();
             List<DespesaAdicionalViewModel> despesasModel = despesas.Select(v => DespesaAdicionalViewModel.FromEntity(v)).ToList();
             return despesasModel;
         }
 
         public DespesaAdicionalViewModelDetails GetById(int id)
         {
-            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d => d.Viagem).SingleOrDefault(v => v.Id == id);
+            DespesaAdicional despesa = _Repository.GetById(id);
             if (despesa is null) throw new Exception("Despesa não encontrada!");
             DespesaAdicionalViewModelDetails despesaModel = DespesaAdicionalViewModelDetails.FromEntity(despesa);
             return despesaModel;
@@ -47,39 +40,20 @@ namespace RegistrosCTe.Application.Services.DespesasServices
 
         public void Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
         {
-            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).SingleOrDefault(v => v.Id == id);
-            DespesaAdicional despesaUpdated = despesaModel.ToEntity(despesa.ViagemId);
-            if(despesa is null) throw new Exception("Despesa não encontrada!");
-            if(despesa.Viagem.CTe != null ) throw new Exception("Despesa não pode ser atualizada!");
-            
-            bool isEqual = despesa.Valor == despesaModel.Valor;
-            
+            DespesaAdicional despesa = _Repository.GetById(id);
+            DespesaAdicional despesaUpdated = despesaModel.ToEntity();
+            if (despesa is null) throw new Exception("Despesa não encontrada!");
+            if (despesa.Viagem.CTe != null) throw new Exception("Despesa não pode ser atualizada!");
             despesa.Update(despesaUpdated);
-            _context.SaveChanges();
-
-            Viagem viagem = _context.Set<Viagem>().Include(v => v.DespesaAdicionais).SingleOrDefault(v => v.Id == despesa.ViagemId);
-            if (!isEqual)
-            {
-                viagem.CalculaValorFrete();
-                viagem.Update(viagem);
-                _context.SaveChanges();
-            }
+            _Repository.Update(despesa);
+            _ViagemService.CalculaValorFrete(despesa.ViagemId);
         }
 
         public void Delete(int id)
         {
-            DespesaAdicional despesa = _context.Set<DespesaAdicional>().Include(d=>d.Viagem).ThenInclude(v=>v.CTe).SingleOrDefault(v => v.Id == id);
-            if(despesa.Viagem.CTe!=null) throw new Exception("Despesa não pode ser excluida encontrada! Deve-se excluir o CT-e Primeiro!");            
-            if (despesa is null) throw new Exception("Despesa não encontrada!");
-            _context.Update(despesa);
-            if(despesa.Viagem != null)
-            {
-                Viagem viagem = despesa.Viagem;
-                viagem.RecalculaValorFrete(despesa.Valor);
-                viagem.Update(viagem);
-            }
-            _context.SaveChanges();
-
+            DespesaAdicional despesa = _Repository.GetById(id);
+            _Repository.Delete(despesa);
+            _ViagemService.RecalculaValorFrete(despesa.ViagemId,despesa.Valor);
         }
     }
 }

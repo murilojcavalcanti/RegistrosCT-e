@@ -2,31 +2,31 @@
 using RegistrosCTe.API.Persistance;
 using RegistrosCTe.Application.Models.ViagemModels;
 using RegistrosCTe.Domain.Entities;
+using RegistrosCTe.Infra.Repostories.CargaRepositories;
+using RegistrosCTe.Infra.Repostories.ViagemRepositories;
 
 namespace RegistrosCTe.Application.Services.ViagemService
 {
     public class ViagemService:IViagemService
     {
         private readonly AppDbContext _context;
-
-        public ViagemService(AppDbContext context)
+        private readonly IViagemRepository _ViagemRepository;
+        public ViagemService(IViagemRepository viagemRepository, ICargaRepository cargaRepository)
         {
-            _context = context;
+            _ViagemRepository = viagemRepository;
         }
 
-        public Viagem Post(ViagemInputModel model)
+        public ViagemViewModel Post(ViagemInputModel model)
         {
             Viagem viagem = model.ToEntity();
-            Carga carga = _context.Set<Carga>().SingleOrDefault(c=>c.Id==model.CargaId);
-            viagem.CalculaValorFrete(carga.Peso);
-            _context.Set<Viagem>().Add(viagem);
-            _context.SaveChanges();
-            return viagem;
+            _ViagemRepository.Post(viagem);
+            ViagemViewModel viagemCreated = ViagemViewModel.FromEntity(CalculaValorFrete(viagem.Id));
+            return viagemCreated;
         }
 
         public List<ViagemViewModel> GetAll()
         {
-            List<Viagem> viagens = _context.Set<Viagem>().ToList();
+            List<Viagem> viagens = _ViagemRepository.GetAll();
             if (viagens == null)  throw new Exception("Viagens não existem");
             List<ViagemViewModel> viagemViewModel = viagens.Select(v => ViagemViewModel.FromEntity(v)).ToList();
             return viagemViewModel;
@@ -34,10 +34,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         public ViagemViewModelDetails GetById(int id)
         {
-            Viagem viagem = _context.Set<Viagem>()
-                .Include(v => v.CTe)
-                .Include(v => v.Carga).Include(v => v.DespesaAdicionais)
-                .SingleOrDefault(v => v.Id == id);
+            Viagem viagem = _ViagemRepository.GetById(id);
             if (viagem == null) throw new Exception("Viagem não existe");
             ViagemViewModelDetails viagemModel = ViagemViewModelDetails.FromEntity(viagem);
             return viagemModel;
@@ -45,25 +42,37 @@ namespace RegistrosCTe.Application.Services.ViagemService
 
         public void Update(int id, ViagemUpdateInputModel viagemModel)
         {
-            Viagem viagem = _context.Set<Viagem>()
-                .Include(v=>v.CTe)
-                .SingleOrDefault(v => v.Id == id);
-           if(viagem.CTe!=null) throw new Exception("Viagem não pode ser Atualizada!");
+            Viagem viagemUpdated = viagemModel.ToEntity();
+            Viagem viagem = _ViagemRepository.GetById(id);
             if (viagem is null) throw new Exception("Viagem não encontrada!");
-            
-            Viagem viagemUpdated = viagemModel.ToEntity(viagem.CargaId);
-
+            if (viagem.CTe != null) throw new Exception("Viagem não pode ser Atualizada!");
             viagem.Update(viagemUpdated);
-            _context.SaveChanges();
+            _ViagemRepository.Update(viagem);
+
+            
         }
 
         public void Delete(int id)
         {
-            Viagem viagem = _context.Set<Viagem>().SingleOrDefault(v => v.Id == id);
+            Viagem viagem = _ViagemRepository.GetById(id);
             if (viagem is null) throw new Exception("Viagem não encontrada!");
 
-            _context.Update(viagem);
-            _context.SaveChanges();
+            _ViagemRepository.Delete(viagem);
+        }
+
+        public Viagem CalculaValorFrete(int id)
+        {
+            Viagem viagem = _ViagemRepository.GetById(id);
+            viagem.CalculaValorFrete();
+            _ViagemRepository.Update(viagem);
+            return viagem;
+        }
+        public Viagem RecalculaValorFrete(int id, decimal despesa)
+        {
+            Viagem viagem = _ViagemRepository.GetById(id);
+            viagem.RecalculaValorFrete(despesa);
+            _ViagemRepository.Update(viagem);
+            return viagem;
         }
     }
 }

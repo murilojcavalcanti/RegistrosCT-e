@@ -12,7 +12,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
 {
     public interface ICargaService
     {
-        Carga Post(CargaInputModel cargaModel);
+        CargaViewModel Post(CargaInputModel cargaModel);
         List<CargaViewModel> GetAll();
 
         CargaViewModelDetails GetById(int id);

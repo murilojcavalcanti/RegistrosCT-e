@@ -5,7 +5,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
 {
     public interface IViagemService
     {
-        Viagem Post(ViagemInputModel model);
+        ViagemViewModel Post(ViagemInputModel model);
 
         List<ViagemViewModel> GetAll();
 
@@ -14,5 +14,8 @@ namespace RegistrosCTe.Application.Services.ViagemService
         void Update(int id, ViagemUpdateInputModel viagemModel);
 
         void Delete(int id);
+
+        Viagem CalculaValorFrete(int id);
+        Viagem RecalculaValorFrete(int id, decimal despesa);
     }
 }

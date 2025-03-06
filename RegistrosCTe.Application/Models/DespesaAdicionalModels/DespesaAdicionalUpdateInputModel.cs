@@ -1,21 +1,15 @@
 ﻿using RegistrosCTe.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
 {
-    public class DespesaAdicionalInputModel
+    public class DespesaAdicionalUpdateInputModel
     {
-        public DespesaAdicionalInputModel(string nome, string descricao, decimal valor, int viagemId)
+        public DespesaAdicionalUpdateInputModel(string nome, string descricao, decimal valor)
         {
             Nome = nome;
             Descricao = descricao;
             Valor = valor;
-            ViagemId = viagemId;
         }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
@@ -29,7 +23,6 @@ namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Valor { get; set; }
-        public int ViagemId { get; set; }
-        public DespesaAdicional ToEntity() => new DespesaAdicional(Nome, Descricao,Valor,ViagemId);
+        public DespesaAdicional ToEntity() => new DespesaAdicional(Nome, Descricao,Valor);
     }
 }

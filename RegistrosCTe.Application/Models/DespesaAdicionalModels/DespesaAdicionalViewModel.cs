@@ -1,25 +1,20 @@
 ﻿using RegistrosCTe.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
 {
     public class DespesaAdicionalViewModel
     {
-        public DespesaAdicionalViewModel(string nome, string description, decimal valor, int despesaId)
+        public DespesaAdicionalViewModel(string nome, string descricao, decimal valor, int despesaId)
         {
             Nome = nome;
-            Description = description;
+            Descricao = descricao;
             Valor = valor;
             DespesaId = despesaId;
         }
 
         public int DespesaId { get; set; }
         public string Nome { get; set; }
-        public string Description { get; set; }
+        public string Descricao { get; set; }
         public decimal Valor { get; set; }
         public static DespesaAdicionalViewModel FromEntity(DespesaAdicional DespesaAdicional)
             => new(DespesaAdicional.Nome, DespesaAdicional.Descricao, DespesaAdicional.Valor,DespesaAdicional.Id);

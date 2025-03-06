@@ -1,9 +1,4 @@
 ﻿using RegistrosCTe.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistrosCTe.Infra.Repostories.CargaRepositories
 {
@@ -13,9 +8,9 @@ namespace RegistrosCTe.Infra.Repostories.CargaRepositories
         List<Carga> GetAll();
 
         Carga GetById(int id);
+        
+        void Update(Carga carga);
 
-        void Update(int id, Carga cargaModel);
-
-        void Delete(int id);
+        void Delete(Carga carga);
     }
 }

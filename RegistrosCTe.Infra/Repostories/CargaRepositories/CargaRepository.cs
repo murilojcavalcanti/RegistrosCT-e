@@ -38,26 +38,17 @@ namespace RegistrosCTe.Infra.Repostories.CargaRepositories
             if (carga is null) throw new Exception("Carga não encontrada!");
             return carga;
         }
-
-        public void Update(int id, Carga cargaUpdated)
+        public void Update(Carga cargaUpdated)
         {
-            Carga carga = _context.Set<Carga>().SingleOrDefault(v => v.Id == id);
-            if (carga is null) throw new Exception("Carga não encontrada!");
-            if (carga.Viagem != null) throw new Exception("Carga não pode ser atualizada!");
-            carga.Update(cargaUpdated);
+            _context.Update(cargaUpdated);
             _context.SaveChanges();
         }
 
 
-        public void Delete(int id)
+        public void Delete(Carga carga)
         {
-            Carga carga = _context.Set<Carga>().Include(c => c.Viagem).SingleOrDefault(v => v.Id == id);
-            if (carga is null) throw new Exception("Carga não encontrada!");
-            if (carga?.Viagem != null) throw new Exception("Carga não pode ser Deletada!");
-
-            _context.Remove<Carga>(carga);
+            _context.Remove(carga);
             _context.SaveChanges();
-
         }
 
     }

@@ -29,7 +29,7 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(DespesaAdicionalViewModel), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Post(DespesaAdicionalInputModel DespesaModel)
+        public async Task<IActionResult> Post(DespesaAdicionalInputModel DespesaModel)
         {
             if (DespesaModel == null || !ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                DespesaAdicionalViewModel despesa = _Service.Post(DespesaModel);
+                DespesaAdicionalViewModel despesa = await _Service.Post(DespesaModel);
                 return CreatedAtAction(nameof(GetById), new { id = despesa.DespesaId }, despesa);
             }
             catch (Exception ex)
@@ -58,11 +58,11 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<DespesaAdicionalViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                List<DespesaAdicionalViewModel> despesasModel = _Service.GetAll();
+                List<DespesaAdicionalViewModel> despesasModel = await _Service.GetAll();
 
                 if (despesasModel == null || !despesasModel.Any())
                 {
@@ -89,11 +89,11 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(DespesaAdicionalViewModelDetails), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                DespesaAdicionalViewModelDetails despesaModel = _Service.GetById(id);
+                DespesaAdicionalViewModelDetails despesaModel = await _Service.GetByIdAsync(id);
 
                 if (despesaModel == null)
                 {

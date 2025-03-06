@@ -15,12 +15,12 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             _ViagemService = viagemService;
         }
 
-        public DespesaAdicionalViewModel Post(DespesaAdicionalInputModel despesaModel)
+        public async Task<DespesaAdicionalViewModel> Post(DespesaAdicionalInputModel despesaModel)
         {
             DespesaAdicional despesa = despesaModel.ToEntity();
             try
             {
-                DespesaAdicionalViewModel despesaCreated = DespesaAdicionalViewModel.FromEntity(_Repository.Post(despesa));
+                DespesaAdicionalViewModel despesaCreated = DespesaAdicionalViewModel.FromEntity(await _Repository.Post(despesa));
                 _ViagemService.CalculaValorFrete(despesa.ViagemId);
                 return despesaCreated;
             }
@@ -31,11 +31,11 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public List<DespesaAdicionalViewModel> GetAll()
+        public async Task<List<DespesaAdicionalViewModel>> GetAll()
         {
             try
             {
-                List<DespesaAdicional> despesas = _Repository.GetAll();
+                List<DespesaAdicional> despesas = await _Repository.GetAll();
                 List<DespesaAdicionalViewModel> despesasModel = despesas.Select(v => DespesaAdicionalViewModel.FromEntity(v)).ToList();
                 return despesasModel;
             }
@@ -45,11 +45,11 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public DespesaAdicionalViewModelDetails GetById(int id)
+        public async Task<DespesaAdicionalViewModelDetails> GetByIdAsync(int id)
         {
             try
             {
-                DespesaAdicional despesa = _Repository.GetById(id);
+                DespesaAdicional despesa = await _Repository.GetById(id);
                 if (despesa is null) throw new Exception("Despesa não encontrada!");
                 DespesaAdicionalViewModelDetails despesaModel = DespesaAdicionalViewModelDetails.FromEntity(despesa);
                 return despesaModel;
@@ -60,11 +60,11 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public void Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
+        public async void Update(int id, DespesaAdicionalUpdateInputModel despesaModel)
         {
             try
             {
-                DespesaAdicional despesa = _Repository.GetById(id);
+                DespesaAdicional despesa = await  _Repository.GetById(id);
                 DespesaAdicional despesaUpdated = despesaModel.ToEntity();
                 if (despesa is null) throw new Exception("Despesa não encontrada!");
                 if (despesa.Viagem.CTe != null) throw new Exception("Despesa não pode ser atualizada!");
@@ -78,11 +78,11 @@ namespace RegistrosCTe.Application.Services.DespesasServices
             }
         }
 
-        public void Delete(int id)
+        public async void Delete(int id)
         {
             try
             {
-                DespesaAdicional despesa = _Repository.GetById(id);
+                DespesaAdicional despesa = await _Repository.GetById(id);
                 if (despesa.Viagem.CTe != null) throw new Exception("Despesa não pode ser atualizada!");
                 _Repository.Delete(despesa);
                 _ViagemService.CalculaValorFrete(despesa.ViagemId);

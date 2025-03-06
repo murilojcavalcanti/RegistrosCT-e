@@ -11,6 +11,10 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class DespesaAdicional:BaseEntity
     {
+        public DespesaAdicional()
+        {
+            
+        }
         public DespesaAdicional(string nome, string descricao, decimal valor, int viagemId)
         {
             Nome = nome;

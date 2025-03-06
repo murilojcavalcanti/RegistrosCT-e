@@ -5,9 +5,9 @@ namespace RegistrosCTe.Application.Services.DespesasServices
 {
     public interface IDespesasService
     {
-        DespesaAdicionalViewModel Post(DespesaAdicionalInputModel DespesaModel);
-        List<DespesaAdicionalViewModel> GetAll();
-        DespesaAdicionalViewModelDetails GetById(int id);
+        Task<DespesaAdicionalViewModel> Post(DespesaAdicionalInputModel DespesaModel);
+        Task<List<DespesaAdicionalViewModel>> GetAll();
+        Task<DespesaAdicionalViewModelDetails> GetByIdAsync(int id);
         void Update(int id, DespesaAdicionalUpdateInputModel DespesaModel);
         void Delete(int id);
     }

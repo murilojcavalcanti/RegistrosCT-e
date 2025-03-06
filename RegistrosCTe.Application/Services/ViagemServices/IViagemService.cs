@@ -7,7 +7,7 @@ namespace RegistrosCTe.Application.Services.ViagemService
     {
         ViagemViewModel Post(ViagemInputModel model);
 
-        List<ViagemViewModel> GetAll();
+        Task<List<ViagemViewModel>> GetAll();
 
         ViagemViewModelDetails GetById(int id); 
 

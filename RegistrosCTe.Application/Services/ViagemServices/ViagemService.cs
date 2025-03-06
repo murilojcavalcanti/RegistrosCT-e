@@ -34,11 +34,11 @@ namespace RegistrosCTe.Application.Services.ViagemService
             }
         }
 
-        public List<ViagemViewModel> GetAll()
+        public async Task<List<ViagemViewModel>> GetAll()
         {
             try
             {
-                List<Viagem> viagens = _ViagemRepository.GetAll();
+                List<Viagem> viagens = await _ViagemRepository.GetAll();
                 if (viagens == null) throw new Exception("Viagens não existem");
                 List<ViagemViewModel> viagemViewModel = viagens.Select(v => ViagemViewModel.FromEntity(v)).ToList();
                 return viagemViewModel;

@@ -56,11 +56,11 @@ namespace RegistrosCTe.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ViagemViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             try
             {
-                List<ViagemViewModel> viagemViewModel = _Service.GetAll();
+                List<ViagemViewModel> viagemViewModel = await _Service.GetAll();
 
                 if (viagemViewModel == null || !viagemViewModel.Any())
                 {

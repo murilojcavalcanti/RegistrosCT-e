@@ -1,30 +1,63 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using RegistrosCTe.API.Persistance;
 using RegistrosCTe.Domain.Entities;
+using System.Text.Json;
 
 namespace RegistrosCTe.Infra.Repostories.ViagemRepositories
 {
     public class ViagemRepository:IViagemRepository
     {
-        private readonly AppDbContext _context;
-
-        public ViagemRepository(AppDbContext context)
+        private readonly AppDbContext _context; 
+        private readonly IDistributedCache _cache;
+        public ViagemRepository(AppDbContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
-        public Viagem Post(Viagem viagem)
+        public async Task<Viagem> Post(Viagem viagem)
         {
             _context.Set<Viagem>().Add(viagem);
             _context.SaveChanges();
+            await _cache.RemoveAsync("viagens");
             return viagem;
         }
 
-        public List<Viagem> GetAll()
+        public async Task<List<Viagem>> GetAll()
         {
+
+            try
+            {
+                var cacheviagens = await _cache.GetStringAsync("viagens");
+                if (!string.IsNullOrEmpty(cacheviagens))
+                {
+                    return JsonSerializer.Deserialize<List<Viagem>>(cacheviagens);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao consultar o cache");
+            }
+
             List<Viagem> viagens = _context.Set<Viagem>().ToList();
             if (viagens == null) throw new Exception("Viagens não existem");
+
+            try
+            {
+                var opts = new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(600),
+                    SlidingExpiration = TimeSpan.FromSeconds(300)
+                };
+                await _cache.SetAsync("viagens", JsonSerializer.SerializeToUtf8Bytes(viagens), opts);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao salvar o cache");
+            }
             return viagens;
+
         }
 
         public Viagem GetById(int id)
@@ -37,16 +70,19 @@ namespace RegistrosCTe.Infra.Repostories.ViagemRepositories
             return viagem;
         }
 
-        public void Update(Viagem viagemUpdated)
+        public async void Update(Viagem viagemUpdated)
         {
             _context.Update(viagemUpdated);
             _context.SaveChanges();
+            await _cache.RemoveAsync("viagens");
         }
 
-        public void Delete(Viagem viagem)
+        public async void Delete(Viagem viagem)
         {   
             _context.Remove(viagem);
             _context.SaveChanges();
+            await _cache.RemoveAsync("viagens");
+
         }
     }
 }

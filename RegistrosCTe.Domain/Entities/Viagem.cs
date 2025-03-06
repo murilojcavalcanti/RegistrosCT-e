@@ -5,6 +5,10 @@ namespace RegistrosCTe.Domain.Entities
 {
     public class Viagem:BaseEntity
     {
+        public Viagem()
+        {
+            
+        }
         public Viagem(string origem, string destino, decimal distancia, DateTime dataInicio, int cargaId) : base()
         {
             Origem = origem;

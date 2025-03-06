@@ -70,14 +70,14 @@ namespace RegistrosCTe.Infra.Repostories.ViagemRepositories
             return viagem;
         }
 
-        public async void Update(Viagem viagemUpdated)
+        public async Task Update(Viagem viagemUpdated)
         {
             _context.Update(viagemUpdated);
             _context.SaveChanges();
             await _cache.RemoveAsync("viagens");
         }
 
-        public async void Delete(Viagem viagem)
+        public async Task Delete(Viagem viagem)
         {   
             _context.Remove(viagem);
             _context.SaveChanges();

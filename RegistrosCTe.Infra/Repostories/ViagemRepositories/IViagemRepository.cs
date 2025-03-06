@@ -9,8 +9,8 @@ namespace RegistrosCTe.Infra.Repostories.ViagemRepositories
 
         Viagem GetById(int id);
 
-        void Update(Viagem viagem);
+        Task Update(Viagem viagem);
         
-        void Delete(Viagem viagem);
+        Task Delete(Viagem viagem);
     }
 }

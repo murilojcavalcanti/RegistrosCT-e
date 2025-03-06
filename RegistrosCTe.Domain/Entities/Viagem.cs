@@ -40,6 +40,9 @@ namespace RegistrosCTe.Domain.Entities
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Column(TypeName = "decimal(10,2)")]
         public decimal ValorFrete { get; set; }
+        
+        [Required(ErrorMessage = "campo Obrigatorio")]
+        [Range(1, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public int CargaId { get; set; }
         public virtual Carga Carga { get; set; }
         public virtual CTe CTe { get; set; }

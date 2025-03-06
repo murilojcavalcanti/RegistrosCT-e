@@ -28,30 +28,41 @@ namespace RegistrosCTe.Infra.Repostories.CargaRepositories
 
         public async Task<List<Carga>> GetAll()
         {
+            try
+            {
+                var cacheCarga = await _cache.GetStringAsync("cargas");
+                if (!string.IsNullOrEmpty(cacheCarga))
+                {
+                    return JsonSerializer.Deserialize<List<Carga>>(cacheCarga);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao consultar o cache");
+            }
+
             List<Carga> cargas =_context.Set<Carga>().AsNoTracking().ToList();
             if (cargas is null) throw new Exception("Cargas não encontradas");
+
+            try
+            {
+                var opts = new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(600),
+                    SlidingExpiration = TimeSpan.FromSeconds(300)
+                };
+                await _cache.SetAsync("cargas", JsonSerializer.SerializeToUtf8Bytes(cargas), opts);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao salvar o cache");
+            }
             return cargas;
         }
 
         public async Task<Carga> GetById(int id)
         {
-            var cacheCargaKey = $"carga_{id}";
-            var cacheCarga = await _cache.GetStringAsync(cacheCargaKey);
-
-            if (!string.IsNullOrEmpty(cacheCarga))
-            {
-                return JsonSerializer.Deserialize<Carga>(cacheCarga);
-            }
-            
             Carga carga = _context.Set<Carga>().Include(c => c.Viagem).SingleOrDefault(v => v.Id == id);
-            if (carga is null) throw new Exception("Carga não encontrada!");
-
-            var opts = new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(600),
-                SlidingExpiration = TimeSpan.FromSeconds(300)
-            };
-            await _cache.SetStringAsync(cacheCargaKey, JsonSerializer.Serialize(carga), opts);
             return carga;
         }
         public async void Update(Carga cargaUpdated)
@@ -59,7 +70,6 @@ namespace RegistrosCTe.Infra.Repostories.CargaRepositories
             _context.Update(cargaUpdated);
             _context.SaveChanges();
             await _cache.RemoveAsync("despesas");
-            await _cache.RemoveAsync($"carga_{cargaUpdated.Id}");
         }
 
 

@@ -37,11 +37,10 @@ namespace RegistrosCTe.API.Controllers
             {
                 return BadRequest("Os dados da carga são inválidos.");
             }
-
             try
             {
-                Carga carga = _Service.Post(cargaModel);
-                return CreatedAtAction(nameof(GetById), new { id = carga.Id }, CargaViewModel.FromEntity(carga));
+                CargaViewModel carga = _Service.Post(cargaModel);
+                return CreatedAtAction(nameof(GetById), new { id = carga.CargaId }, carga);
             }
             catch (Exception ex)
             {

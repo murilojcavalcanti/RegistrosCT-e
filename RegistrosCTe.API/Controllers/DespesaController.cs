@@ -38,8 +38,8 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                DespesaAdicional despesa = _Service.Post(DespesaModel);
-                return CreatedAtAction(nameof(GetById), new { id = despesa.Id }, DespesaAdicionalViewModel.FromEntity(despesa));
+                DespesaAdicionalViewModel despesa = _Service.Post(DespesaModel);
+                return CreatedAtAction(nameof(GetById), new { id = despesa.DespesaId }, despesa);
             }
             catch (Exception ex)
             {

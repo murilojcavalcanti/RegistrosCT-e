@@ -36,8 +36,8 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                Viagem viagem = _Service.Post(model);
-                return CreatedAtAction(nameof(GetById), new { id = viagem.Id }, ViagemViewModel.FromEntity(viagem));
+                ViagemViewModel viagem = _Service.Post(model);
+                return CreatedAtAction(nameof(GetById), new { id = viagem.ViagemId }, viagem);
             }
             catch (Exception ex)
             {

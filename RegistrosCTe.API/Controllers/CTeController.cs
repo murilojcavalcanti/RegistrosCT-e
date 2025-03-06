@@ -40,8 +40,8 @@ namespace RegistrosCTe.API.Controllers
 
             try
             {
-                CTe cte = _Service.Post(cteModel);
-                return CreatedAtAction(nameof(GetById), new { id = cte.Id }, CTeViewModelDetails.FromEntity(cte));
+                CTeViewModel cte = _Service.Post(cteModel);
+                return CreatedAtAction(nameof(GetById), new { id = cte.CTeId }, cte);
             }
             catch (Exception ex)
             {

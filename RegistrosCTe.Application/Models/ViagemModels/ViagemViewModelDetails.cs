@@ -22,7 +22,7 @@ namespace RegistrosCTe.Application.Models.ViagemModels
             DataInicio = dataInicio;
             ValorFrete = valorFrete;
             Carga = carga != null ? CargaViewModel.FromEntity(carga) : null;
-            DespesaAdicionais = despesaAdicionais.Count != null ? despesaAdicionais.Select(d => DespesaAdicionalViewModel.FromEntity(d)).ToList() : null;
+            DespesaAdicionais = despesaAdicionais != null ? despesaAdicionais.Select(d => DespesaAdicionalViewModel.FromEntity(d)).ToList() : null;
             ViagemId = viagemId;
         }
 

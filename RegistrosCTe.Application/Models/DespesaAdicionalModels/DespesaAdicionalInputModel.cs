@@ -28,6 +28,6 @@ namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
         [Required(ErrorMessage = "campo Obrigatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public decimal Valor { get; set; }
-        public DespesaAdicional ToEntity(int ViagemId) => new DespesaAdicional(Nome, Descricao,Valor,ViagemId);
+        public DespesaAdicional ToEntity() => new DespesaAdicional(Nome, Descricao,Valor);
     }
 }

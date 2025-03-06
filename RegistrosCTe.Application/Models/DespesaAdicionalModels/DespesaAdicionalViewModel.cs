@@ -9,15 +9,15 @@ namespace RegistrosDespesaAdicional.Application.Models.DespesaAdicionalModels
 {
     public class DespesaAdicionalViewModel
     {
-        public DespesaAdicionalViewModel(string nome, string description, decimal valor, int despesasId)
+        public DespesaAdicionalViewModel(string nome, string description, decimal valor, int despesaId)
         {
             Nome = nome;
             Description = description;
             Valor = valor;
-            DespesasId = despesasId;
+            DespesaId = despesaId;
         }
 
-        public int DespesasId { get; set; }
+        public int DespesaId { get; set; }
         public string Nome { get; set; }
         public string Description { get; set; }
         public decimal Valor { get; set; }

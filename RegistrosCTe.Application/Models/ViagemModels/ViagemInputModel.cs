@@ -33,9 +33,11 @@ namespace RegistrosCTe.Application.Models.ViagemModels
         public decimal Distancia { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [DataType(DataType.DateTime)]
         public DateTime DataInicio { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [Range(0, int.MaxValue, ErrorMessage = "Apenas valores positivos")]
         public int CargaId { get; set; }
 
         public Viagem ToEntity() => new(Origem,Destino,Distancia,DataInicio,CargaId);

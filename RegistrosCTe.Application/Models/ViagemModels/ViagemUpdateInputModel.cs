@@ -19,6 +19,7 @@ namespace RegistrosCTe.Application.Models.ViagemModels
             DataInicio = dataInicio;
         }
 
+
         [Required(ErrorMessage = "campo Obrigatorio")]
         [MinLength(10, ErrorMessage = "O tamanho minimo de 10 caracteres")]
         public string Origem { get; set; }
@@ -32,8 +33,9 @@ namespace RegistrosCTe.Application.Models.ViagemModels
         public decimal Distancia { get; set; }
 
         [Required(ErrorMessage = "campo Obrigatorio")]
+        [DataType(DataType.DateTime)]
         public DateTime DataInicio { get; set; }
 
-        public Viagem ToEntity(int cargaId) => new(Origem,Destino,Distancia,DataInicio, cargaId);
+        public Viagem ToEntity() => new(Origem,Destino,Distancia,DataInicio);
     }
 }

@@ -38,20 +38,6 @@ namespace RegistrosCTe.Infra
                 r.InstanceName = "CteCache";
                 r.Configuration = "Localhost:6379";
             });
-            using (var scope = services.BuildServiceProvider().CreateScope())
-            {
-                var cache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
-                try
-                {
-                    cache.SetString("test_key", "test_value"); // 🔹 Teste de escrita
-                    var value = cache.GetString("test_key"); // 🔹 Teste de leitura
-                    Console.WriteLine($"Redis funcionando! Valor armazenado: {value}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Erro ao conectar ao Redis: {ex.Message}");
-                }
-            }
             return services;
         }
     }

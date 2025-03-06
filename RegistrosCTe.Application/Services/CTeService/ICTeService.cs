@@ -15,5 +15,7 @@ namespace RegistrosCTe.Application.Services.CTeService
         List<CTeViewModel> GetAll();
         CTeViewModelDetails GetById(int id);
         void Delete(int id);
+        CTeViewModel CalculaValorBaseSimples(int id);
+        CTeViewModel CalculaValorBasePorDentro(int id);
     }
 }

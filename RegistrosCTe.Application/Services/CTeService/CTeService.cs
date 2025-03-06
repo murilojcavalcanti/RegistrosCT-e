@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RegistrosCTe.API.Persistance;
+﻿using RegistrosCTe.API.Persistance;
 using RegistrosCTe.Application.Models.CTeModels;
 using RegistrosCTe.Domain.Entities;
 using RegistrosCTe.Infra.Repostories.CTeRepositories;

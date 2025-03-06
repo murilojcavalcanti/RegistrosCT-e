@@ -67,7 +67,7 @@ namespace RegistrosCTe.Application.Services.CargaServices
                 if (carga is null) throw new Exception("Carga não encontrada!");
                 if (carga.Viagem != null) throw new Exception("Carga não pode ser atualizada!");
                 carga.Update(cargaUpdated);
-                _Repository.Update(cargaUpdated);
+                _Repository.Update(carga);
             }
             catch (Exception ex)
             {

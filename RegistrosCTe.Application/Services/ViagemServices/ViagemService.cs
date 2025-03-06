@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistrosCTe.API.Persistance;
 using RegistrosCTe.Application.Models.ViagemModels;
+using RegistrosCTe.Application.Services.CTeService;
 using RegistrosCTe.Domain.Entities;
 using RegistrosCTe.Infra.Repostories.CargaRepositories;
 using RegistrosCTe.Infra.Repostories.ViagemRepositories;
@@ -11,9 +12,11 @@ namespace RegistrosCTe.Application.Services.ViagemService
     {
         private readonly AppDbContext _context;
         private readonly IViagemRepository _ViagemRepository;
-        public ViagemService(IViagemRepository viagemRepository, ICargaRepository cargaRepository)
+        private readonly ICTeService _CTeService;
+        public ViagemService(IViagemRepository viagemRepository, ICargaRepository cargaRepository, ICTeService cTeService)
         {
             _ViagemRepository = viagemRepository;
+            _CTeService = cTeService;
         }
 
         public ViagemViewModel Post(ViagemInputModel model)
@@ -98,9 +101,12 @@ namespace RegistrosCTe.Application.Services.ViagemService
             try
             {
                 Viagem viagem = _ViagemRepository.GetById(id);
-                if (viagem.CTe != null) throw new Exception("Viagem não pode ser atualizada!");
                 viagem.CalculaValorFrete();
                 _ViagemRepository.Update(viagem);
+                if (viagem.CTe != null)
+                {
+                    _CTeService.CalculaValorBasePorDentro(viagem.CTe.Id);
+                }
                 return viagem;
             }
             catch (Exception ex)

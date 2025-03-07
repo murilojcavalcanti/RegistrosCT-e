@@ -250,7 +250,5 @@ namespace ResgistrosCTe.Tests.Application.Services
             Assert.Equal("Erro no processamento:Erro no repositório!", exception.Message);
             mockViagemRepository.Verify(repo => repo.GetById(1), Times.Once);
         }
-
-
     }
 }

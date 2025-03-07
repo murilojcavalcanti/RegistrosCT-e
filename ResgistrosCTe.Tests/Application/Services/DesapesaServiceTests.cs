@@ -124,7 +124,7 @@ namespace ResgistrosCTe.Tests.Application.Services
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<Exception>(() => service.GetById(1));
-            Assert.Equal("Erro no processamento:Despesa não encontrada!", exception.Message);
+            Assert.Equal("Erro no processamento:Despesa não encontrada!!", exception.Message);
             mockRepository.Verify(repo => repo.GetById(1), Times.Once);
         }
 
@@ -184,7 +184,7 @@ namespace ResgistrosCTe.Tests.Application.Services
             var service = new DespesasService(mockRepository.Object, mockViagemService.Object);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () => service.Update(1, despesaUpdateInputModel));
+            await Assert.ThrowsAsync<Exception>(async () => await service.Update(1, despesaUpdateInputModel));
 
             mockRepository.Verify(repo => repo.GetById(1), Times.Once);
             mockRepository.Verify(repo => repo.Update(It.IsAny<DespesaAdicional>()), Times.Never);

@@ -87,6 +87,7 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
 *   [.NET SDK](https://dotnet.microsoft.com/download) (versão X.X ou superior)
 *   [Visual Studio](https://visualstudio.microsoft.com/downloads/) ou [Visual Studio Code](https://code.visualstudio.com/) com a extensão C#
 *   [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (ou outro banco de dados de sua preferência)
+*   [Redis](https://redis.io/docs/latest/) 
 *   [NuGet Package Manager](https://www.nuget.org/) (geralmente instalado com o Visual Studio)
 
 ## Configuração
@@ -116,7 +117,9 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas:
         ```powershell
         dotnet ef database update -s ..\RegistrosCTe.API\
         ```
-
+4. **Configure o Redis na sua maquina conforme a documentaç  ão
+    
+    *   Caso Esteja usando outra porta ou outra configuração, vá ao arquivo InfraModule e realize as alterações necessárias. 
 ## Como Executar a API
 
 1.  **Abra o projeto no Visual Studio ou Visual Studio Code.**
